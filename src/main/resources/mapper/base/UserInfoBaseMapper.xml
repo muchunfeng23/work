@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="com.yl.work.mapper.UserInfoMapper">
+  <!--database table: (user_info) with javabean : (com.yl.work.entity.UserInfoEntity)-->
+  <resultMap id="rm_UserInfoEntity" type="com.yl.work.entity.UserInfoEntity">
+  	<result property="id" column="id"/>
+  	<result property="userName" column="user_name"/>
+  	<result property="identiyCard" column="identiy_card"/>
+  	<result property="phone" column="phone"/>
+  	<result property="city" column="city"/>
+  	<result property="ct" column="c_t"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,user_name,identiy_card,phone,city,
+		c_t
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <where>
+      <if test="id != null">
+        and id =  #{id}
+      </if>
+      <if test="userName != null">
+        and user_name =  #{userName}
+      </if>
+      <if test="identiyCard != null">
+        and identiy_card =  #{identiyCard}
+      </if>
+      <if test="phone != null">
+        and phone =  #{phone}
+      </if>
+      <if test="city != null">
+        and city =  #{city}
+      </if>
+      <if test="ct != null">
+        and c_t =  #{ct}
+      </if>
+    </where>
+  </sql>
+  
+  <!--the 'where' sql with table alias of search  -->
+  <sql id="where_with_alias_sql">
+    <where>
+      <if test="tb.id != null">
+        and id =  #{tb.id}
+      </if>
+      <if test="tb.userName != null">
+        and user_name =  #{tb.userName}
+      </if>
+      <if test="tb.identiyCard != null">
+        and identiy_card =  #{tb.identiyCard}
+      </if>
+      <if test="tb.phone != null">
+        and phone =  #{tb.phone}
+      </if>
+      <if test="tb.city != null">
+        and city =  #{tb.city}
+      </if>
+      <if test="tb.ct != null">
+        and c_t =  #{tb.ct}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <trim>
+      <if test="sort != null and sort.size() >0 ">
+        ORDER BY
+        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+          <choose>
+            <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              id
+            </when>
+            <when test="key!=null and 'userName'.equalsIgnoreCase(key)">
+              user_name
+            </when>
+            <when test="key!=null and 'identiyCard'.equalsIgnoreCase(key)">
+              identiy_card
+            </when>
+            <when test="key!=null and 'phone'.equalsIgnoreCase(key)">
+              phone
+            </when>
+            <when test="key!=null and 'city'.equalsIgnoreCase(key)">
+              city
+            </when>
+            <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+              c_t
+            </when>
+          </choose>
+          <choose>
+            <when test="'asc'.equalsIgnoreCase(value)">
+              asc
+            </when>
+            <when test="'desc'.equalsIgnoreCase(value)">
+              desc
+            </when>
+            <otherwise>
+              asc
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <set>
+      <if test="id != null">
+        id =  #{id} ,
+      </if>
+      <if test="userName != null">
+        user_name =  #{userName} ,
+      </if>
+      <if test="identiyCard != null">
+        identiy_card =  #{identiyCard} ,
+      </if>
+      <if test="phone != null">
+        phone =  #{phone} ,
+      </if>
+      <if test="city != null">
+        city =  #{city} ,
+      </if>
+      <if test="ct != null">
+        c_t =  #{ct} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <set>
+      <if test="tb.id != null">
+        id = #{tb.id} ,
+      </if>
+      <if test="tb.userName != null">
+        user_name = #{tb.userName} ,
+      </if>
+      <if test="tb.identiyCard != null">
+        identiy_card = #{tb.identiyCard} ,
+      </if>
+      <if test="tb.phone != null">
+        phone = #{tb.phone} ,
+      </if>
+      <if test="tb.city != null">
+        city = #{tb.city} ,
+      </if>
+      <if test="tb.ct != null">
+        c_t = #{tb.ct} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    UPDATE user_info
+    <include refid="update_with_alias_sql"/>
+	<where>
+		and id = #{id}
+	</where>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO user_info
+        (
+			user_name,identiy_card,phone,city,c_t	
+		)
+      VALUES
+      	(
+			#{userName},#{identiyCard},#{phone},#{city},#{ct}	
+      	)
+    ]]>
+  </insert>
+
+  <!-- insert into table with not null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="identiyCard != null">
+        identiy_card,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="ct != null">
+        c_t,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="userName != null">
+         #{userName} ,
+      </if>
+      <if test="identiyCard != null">
+         #{identiyCard} ,
+      </if>
+      <if test="phone != null">
+         #{phone} ,
+      </if>
+      <if test="city != null">
+         #{city} ,
+      </if>
+      <if test="ct != null">
+         #{ct} ,
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO user_info
+      (
+			user_name,identiy_card,phone,city,c_t	
+		)
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+    	(
+			#{item.userName},#{item.identiyCard},#{item.phone},#{item.city},#{item.ct}	
+    	)
+    </foreach>
+  </insert>
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_UserInfoEntity">
+    SELECT
+    <include refid="columns"/>
+    <![CDATA[
+      FROM user_info 
+    ]]>
+	<where>
+		and id =#{id}
+	</where>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_UserInfoEntity" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM user_info
+	  WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+     #{item}      
+    </foreach>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_UserInfoEntity">
+    SELECT 
+    	<include refid="columns"/>
+		FROM user_info
+    <include refid="where_with_alias_sql"/>
+    <include refid="sort_sql"/>
+    <choose>
+      <when test="limit != null  and offset != null">
+        limit #{limit} offset  #{offset}  
+      </when>
+      <when test="limit != null  and offset == null">
+        limit #{limit} 
+      </when>
+    </choose>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    SELECT count(1) FROM user_info
+    <include refid="where_with_alias_sql"/>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    DELETE FROM user_info
+    <include refid="where_sql"/>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    DELETE FROM user_info
+    <where>
+		and id = #{id}
+    </where>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from user_info 
+      WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">      
+	  #{item}
+    </foreach>
+  </delete> 
+</mapper>
