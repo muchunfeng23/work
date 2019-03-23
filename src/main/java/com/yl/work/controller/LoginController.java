@@ -16,4 +16,9 @@ public class LoginController {
         String token = LoginHelper.createTokenForApp(openIdAndSessionKey);
         return token;
     }
+
+    @RequestMapping("/")
+    public String testServer(HttpServletRequest request){
+        return "ok";
+    }
 }
