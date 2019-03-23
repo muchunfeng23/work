@@ -17,7 +17,7 @@ public class LoginController {
         return token;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/nihao")
     public String testServer(HttpServletRequest request){
         return "ok";
     }
