@@ -1,0 +1,26 @@
+server:
+  port: 11115
+
+spring:
+  profiles : test
+  datasource:
+    type: org.apache.commons.dbcp.BasicDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.104.142.246:3360/nanhang
+    username: root
+    password: yanglu56
+    initialSize: 50
+    maxActive: 300
+    minIdle: 50
+    maxWait: 1000
+    defaultAutoCommit: true
+    timeBetweenEvictionRunsMillis: 600000
+    numTestsPerEvictionRun: 3
+    minEvictableIdleTimeMillis: 1800000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    validationQuery: select 1
+    removeAbandoned: true
+    removeAbandonedTimeout: 180
+    logAbandoned: true
