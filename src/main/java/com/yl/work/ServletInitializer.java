@@ -6,7 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 //import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
@@ -14,8 +14,8 @@ public class ServletInitializer extends SpringBootServletInitializer {
         return application.sources(ServletInitializer.class);
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(ServletInitializer.class, args);
-    }
+//    public static void main(String[] args) {
+//        SpringApplication.run(ServletInitializer.class, args);
+//    }
 
 }
