@@ -1,6 +1,7 @@
 package com.yl.work.weixin;
 
 import com.yl.work.config.ConfigInfo;
+import com.yl.work.util.DateUtil;
 import com.yl.work.util.JsonUtil;
 import com.yl.work.util.YLHttpClient;
 import com.yl.work.weixin.bean.OpenIdAndSessionKey;
@@ -22,7 +23,9 @@ public class LoginHelper {
         requestUrl = requestUrl.replace("SECRET", ConfigInfo.APP_SECRET);
         //从微信服务器返回数据
         String jsonResult = YLHttpClient.doGetRequest(requestUrl);
-        return JsonUtil.parseJson(jsonResult,OpenIdAndSessionKey.class);
+        OpenIdAndSessionKey openIdAndSessionKey = JsonUtil.parseJson(jsonResult,OpenIdAndSessionKey.class);
+        openIdAndSessionKey.setGetTime(DateUtil.getCurrentTimeIntValue());
+        return openIdAndSessionKey;
     }
 
     /**
