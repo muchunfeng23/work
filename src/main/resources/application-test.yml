@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8089
   ssl:
     key-store: 1969641_www.man-help.cn.pfx
     key-store-type: PKCS12
@@ -28,3 +28,14 @@ spring:
     removeAbandoned: true
     removeAbandonedTimeout: 180
     logAbandoned: true
+  thymeleaf:
+    prefix: /WEB-INF/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    cache: false
+    cache-period: 0
+    template:
+      cache: false
+    resources:
+      static-locations: classpath:/static/
