@@ -11,8 +11,8 @@ spring:
     type: org.apache.commons.dbcp.BasicDataSource
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://47.104.142.246:3360/ths
-    username: root
-    password: yanglu56
+    username: root1
+    password: &4567890
     initialSize: 50
     maxActive: 300
     minIdle: 50
