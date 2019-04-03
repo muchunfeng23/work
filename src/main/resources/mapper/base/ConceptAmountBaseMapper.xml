@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="com.yl.work.mapper.ConceptAmountMapper">
+  <!--database table: (concept_amount) with javabean : (com.yl.work.entity.ConceptAmountEntity)-->
+  <resultMap id="rm_ConceptAmountEntity" type="com.yl.work.entity.ConceptAmountEntity">
+  	<result property="id" column="id"/>
+  	<result property="cname" column="c_name"/>
+  	<result property="amount" column="amount"/>
+  	<result property="datekey" column="datekey"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,c_name,amount,datekey
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <where>
+      <if test="id != null">
+        and id =  #{id}
+      </if>
+      <if test="cname != null">
+        and c_name =  #{cname}
+      </if>
+      <if test="amount != null">
+        and amount =  #{amount}
+      </if>
+      <if test="datekey != null">
+        and datekey =  #{datekey}
+      </if>
+    </where>
+  </sql>
+  
+  <!--the 'where' sql with table alias of search  -->
+  <sql id="where_with_alias_sql">
+    <where>
+      <if test="tb.id != null">
+        and id =  #{tb.id}
+      </if>
+      <if test="tb.cname != null">
+        and c_name =  #{tb.cname}
+      </if>
+      <if test="tb.amount != null">
+        and amount =  #{tb.amount}
+      </if>
+      <if test="tb.datekey != null">
+        and datekey =  #{tb.datekey}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <trim>
+      <if test="sort != null and sort.size() >0 ">
+        ORDER BY
+        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+          <choose>
+            <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              id
+            </when>
+            <when test="key!=null and 'cname'.equalsIgnoreCase(key)">
+              c_name
+            </when>
+            <when test="key!=null and 'amount'.equalsIgnoreCase(key)">
+              amount
+            </when>
+            <when test="key!=null and 'datekey'.equalsIgnoreCase(key)">
+              datekey
+            </when>
+          </choose>
+          <choose>
+            <when test="'asc'.equalsIgnoreCase(value)">
+              asc
+            </when>
+            <when test="'desc'.equalsIgnoreCase(value)">
+              desc
+            </when>
+            <otherwise>
+              asc
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <set>
+      <if test="id != null">
+        id =  #{id} ,
+      </if>
+      <if test="cname != null">
+        c_name =  #{cname} ,
+      </if>
+      <if test="amount != null">
+        amount =  #{amount} ,
+      </if>
+      <if test="datekey != null">
+        datekey =  #{datekey} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <set>
+      <if test="tb.id != null">
+        id = #{tb.id} ,
+      </if>
+      <if test="tb.cname != null">
+        c_name = #{tb.cname} ,
+      </if>
+      <if test="tb.amount != null">
+        amount = #{tb.amount} ,
+      </if>
+      <if test="tb.datekey != null">
+        datekey = #{tb.datekey} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    UPDATE concept_amount
+    <include refid="update_with_alias_sql"/>
+	<where>
+		and id = #{id}
+	</where>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO concept_amount
+        (
+			c_name,amount,datekey	
+		)
+      VALUES
+      	(
+			#{cname},#{amount},#{datekey}	
+      	)
+    ]]>
+  </insert>
+
+  <!-- insert into table with not null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  concept_amount
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cname != null">
+        c_name,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="datekey != null">
+        datekey,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="cname != null">
+         #{cname} ,
+      </if>
+      <if test="amount != null">
+         #{amount} ,
+      </if>
+      <if test="datekey != null">
+         #{datekey} ,
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO concept_amount
+      (
+			c_name,amount,datekey	
+		)
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+    	(
+			#{item.cname},#{item.amount},#{item.datekey}	
+    	)
+    </foreach>
+  </insert>
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_ConceptAmountEntity">
+    SELECT
+    <include refid="columns"/>
+    <![CDATA[
+      FROM concept_amount 
+    ]]>
+	<where>
+		and id =#{id}
+	</where>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_ConceptAmountEntity" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM concept_amount
+	  WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+     #{item}      
+    </foreach>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_ConceptAmountEntity">
+    SELECT 
+    	<include refid="columns"/>
+		FROM concept_amount
+    <include refid="where_with_alias_sql"/>
+    <include refid="sort_sql"/>
+    <choose>
+      <when test="limit != null  and offset != null">
+        limit #{limit} offset  #{offset}  
+      </when>
+      <when test="limit != null  and offset == null">
+        limit #{limit} 
+      </when>
+    </choose>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    SELECT count(1) FROM concept_amount
+    <include refid="where_with_alias_sql"/>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    DELETE FROM concept_amount
+    <include refid="where_sql"/>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    DELETE FROM concept_amount
+    <where>
+		and id = #{id}
+    </where>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from concept_amount 
+      WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">      
+	  #{item}
+    </foreach>
+  </delete> 
+</mapper>

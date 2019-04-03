@@ -10,7 +10,7 @@ spring:
   datasource:
     type: org.apache.commons.dbcp.BasicDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.104.142.246:3360/nanhang
+    url: jdbc:mysql://47.104.142.246:3360/ths
     username: root
     password: yanglu56
     initialSize: 50
@@ -29,9 +29,8 @@ spring:
     removeAbandonedTimeout: 180
     logAbandoned: true
   thymeleaf:
-    prefix: /WEB-INF/templates/
+    prefix: classpath:/templates/
     suffix: .html
-    mode: LEGACYHTML5
     encoding: UTF-8
     cache: false
     cache-period: 0
@@ -39,3 +38,6 @@ spring:
       cache: false
     resources:
       static-locations: classpath:/static/
+
+mybatis:
+  mapperLocations: classpath:/mapper/*.xml,classpath:/mapper/*/*.xml

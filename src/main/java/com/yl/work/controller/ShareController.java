@@ -11,8 +11,13 @@ public class ShareController {
     @RequestMapping("/plateInfo.mc")
     public ModelAndView renderPlateAndConceptInfo(){
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("a");
+        mv.setViewName("/a");
         return mv;
+    }
+
+    @RequestMapping("/testReturnString")
+    public String returnString(){
+        return "a";
     }
 
     @ResponseBody

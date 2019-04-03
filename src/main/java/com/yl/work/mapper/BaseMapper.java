@@ -3,8 +3,6 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import org.apache.ibatis.annotations.Param;
 /**
- * 
- * @author xinli@meicai.cn
  * @param <T>
  * @param <ID>
  */

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
  * 表名称：wx_user
  * 表注释：
  * 类型：table
- * @author：xinli@meicai.cn
  */
 @Mapper
 @Component
