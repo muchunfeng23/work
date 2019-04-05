@@ -1,10 +1,120 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="include/head">
+    <style>
+        body{
+            width: 1600px;
+        }
+        #myCanvas{
+            margin: 0 auto;
+            position: relative;
+        }
+        #descButton{
+            margin: 3px 5px;
+        }
+        #ascButton{
+            margin: 3px 5px;
+        }
+    </style>
 </head>
 <body>
-    hello
+    <!--<div>-->
+        <!--<div>-->
+           <!--<div th:each="aInfo:${industryList}">-->
+               <!--<span th:text="${aInfo.platName}"></span>-->
+               <!--<div th:each="amountInfo:${aInfo.industryAmountEntityList}">-->
+                   <!--<span th:text="${amountInfo.getAmount()}"></span>-->
+               <!--</div>-->
+           <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <form action="/shares/plateInfo" method="post">
+        <select name="searchParam">
+            <option th:value="1" value="1" selected>概念净流入由高到低</option>
+            <option th:value="2">概念净流入由低到高</option>
+            <option th:value="3">板块净流入由高到低</option>
+            <option th:value="4">板块净流入由低到高</option>
+        </select>
+        <input type="submit" value="查看"></input>
+    </form>
+    <canvas id="myCanvas" width="1600" height="8000"></canvas>
 </body>
+
+
+<script th:inline="javascript">
+    $(function () {
+        function writeTitles(cxt,content,startX,startY){
+            cxt.font = "18px bold 黑体";
+            cxt.fillStyle = "#000000";
+            cxt.textAlign = "center";
+            cxt.textBaseline = "top";
+            cxt.fillText(content,startX,startY);
+        }
+
+        function writePlateDetails(cxt,content,startX,startY) {
+            cxt.font = "12px normal 宋体";
+            cxt.fillStyle = "#000000";
+            cxt.textAlign = "left";
+            cxt.textBaseline = "Top";
+            cxt.fillText(content,startX + 5,startY + 5);
+        }
+
+        // var firstAmount = [[${industryList.get(0).platName}]];
+        var allAmount = Array.from([[${industryList}]]);
+        var myCanvas = document.getElementById("myCanvas");
+        var cxt = myCanvas.getContext("2d");
+        var canvasWidth = 1600;
+        var startX = canvasWidth/2;
+        var startY = 10;
+        var endX = startX;
+        //100亿资金占用长度为100的像素
+        var baseAmount = 30000;
+        var baseWidth = 60;
+        var baseHeight = 25;
+        cxt.fillStyle = "#000000";
+        //绘制渐变色
+        var grd=cxt.createLinearGradient(0,0,canvasWidth,20);
+        grd.addColorStop(0,"#FF0000");
+        grd.addColorStop(1,"#00FF00");
+
+        for(var i = 0; i < allAmount.length; i++){
+            startX = canvasWidth/2;
+            endX = startX;
+            cxt.fillStyle = grd;
+            cxt.fillRect(0,startY,canvasWidth,1);
+            var platName = allAmount[i].platName;
+            startY = startY + 30;
+            writeTitles(cxt,platName,startX,startY);
+            //文字和图形之间的间距
+            startY += 45;
+            var amountEntityList = allAmount[i].industryAmountEntityList;
+            for(var j = 0; j < amountEntityList.length; j++){
+
+
+                var aEntity = amountEntityList[j];
+                // console.log(aEntity.amount)
+                var thisWidth = aEntity.amount / baseAmount * baseWidth;
+                if(aEntity.amount > 0){
+                    cxt.fillStyle = "#EE0000";
+                }else if(aEntity.amount < 0){
+                    cxt.fillStyle = "#00BB00";
+                }else if(aEntity.amount == 0){
+                    cxt.fillStyle = "#BBBBBB";
+                    thisWidth = 1;
+                }
+                cxt.fillRect(startX,startY,thisWidth,baseHeight);
+                // 当日详情
+                writePlateDetails(cxt,aEntity.amount + "万元；日期:" + aEntity.datekey, startX + 10, startY);
+
+                startX = startX + thisWidth;
+                startY += baseHeight + 5;
+            }
+            startY += 45;
+        }
+
+
+    })
+</script>
+
+
 </html>

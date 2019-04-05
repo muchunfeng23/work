@@ -61,7 +61,7 @@ public class IndustryAmountEntity  implements Serializable  {
 	 * 是否是主键：否
 	 */
 	//@JsonProperty("amount")
-	private BigDecimal amount;	
+	private Double amount;
 	
 	/**
 	 * 是否可以为NULL：yes
@@ -95,16 +95,14 @@ public class IndustryAmountEntity  implements Serializable  {
 		this.iname = iname;
 	}
 
-	
-	public BigDecimal getAmount(){
-		return this.amount;
+	public Double getAmount() {
+		return amount;
 	}
-	
-	public void setAmount(BigDecimal amount){
+
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
-	
 	public Integer getDatekey(){
 		return this.datekey;
 	}

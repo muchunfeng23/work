@@ -2,5 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!-- base mybatis file for sql defined by self  -->
 <mapper namespace="com.yl.work.mapper.ConceptAmountMapper">
-
+    <select id="queryIndustryInfos" resultType="com.yl.work.shares.bean.IndustryInfo">
+        select
+        c_name as platName,
+        sum(amount) as amountSum,
+        group_concat(amount,"|",datekey) as amountDetailStr
+        from concept_amount
+        where
+        <![CDATA[
+          datekey >= #{datekey}
+        ]]>
+        group by c_name
+        order by sum(amount)
+        <if test="descAsc == 'desc'">
+            desc
+        </if>
+        <if test="descAsc == 'asc'">
+            asc
+        </if>
+        limit 15
+    </select>
 </mapper>

@@ -1,5 +1,5 @@
 server:
-  port: 8089
+  port: 8080
   ssl:
     key-store: 1969641_www.man-help.cn.pfx
     key-store-type: PKCS12
@@ -7,12 +7,25 @@ server:
 
 spring:
   profiles : test
+  jmx:
+    enabled: false
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    cache: false
+    cache-period: 0
+  template:
+    cache: false
+  resources:
+    static-locations: classpath:/static/
   datasource:
     type: org.apache.commons.dbcp.BasicDataSource
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://47.104.142.246:3360/ths
-    username: root1
-    password: &4567890
+    username: root
+    password: yanglu56
     initialSize: 50
     maxActive: 300
     minIdle: 50
@@ -28,16 +41,8 @@ spring:
     removeAbandoned: true
     removeAbandonedTimeout: 180
     logAbandoned: true
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
-    cache: false
-    cache-period: 0
-    template:
-      cache: false
-    resources:
-      static-locations: classpath:/static/
 
 mybatis:
   mapperLocations: classpath:/mapper/*.xml,classpath:/mapper/*/*.xml
+
+
