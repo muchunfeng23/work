@@ -20,6 +20,6 @@
         <if test="descAsc == 'asc'">
             asc
         </if>
-        limit 15
+        limit 30
     </select>
 </mapper>

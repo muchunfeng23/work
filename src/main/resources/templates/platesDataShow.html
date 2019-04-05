@@ -2,19 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="include/head">
     <style>
-        body{
-            width: 1600px;
-        }
-        #myCanvas{
-            margin: 0 auto;
-            position: relative;
-        }
-        #descButton{
-            margin: 3px 5px;
-        }
-        #ascButton{
-            margin: 3px 5px;
-        }
     </style>
 </head>
 <body>
@@ -37,7 +24,7 @@
         </select>
         <input type="submit" value="查看"></input>
     </form>
-    <canvas id="myCanvas" width="1600" height="8000"></canvas>
+    <canvas id="myCanvas" width="1900" height="9000"></canvas>
 </body>
 
 
@@ -63,13 +50,13 @@
         var allAmount = Array.from([[${industryList}]]);
         var myCanvas = document.getElementById("myCanvas");
         var cxt = myCanvas.getContext("2d");
-        var canvasWidth = 1600;
+        var canvasWidth = 1900;
         var startX = canvasWidth/2;
         var startY = 10;
         var endX = startX;
         //100亿资金占用长度为100的像素
-        var baseAmount = 30000;
-        var baseWidth = 60;
+        var baseAmount = 60000;
+        var baseWidth = 30;
         var baseHeight = 25;
         cxt.fillStyle = "#000000";
         //绘制渐变色
