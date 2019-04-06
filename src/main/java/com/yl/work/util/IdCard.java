@@ -17,7 +17,7 @@ public class IdCard {
      * @return 1-合法；0-不合法
      */
     public int isLegal(){
-        if(id.length() >= 18){
+        if(id.length() != 18){
             return 0;
         }
         int a = 0;
