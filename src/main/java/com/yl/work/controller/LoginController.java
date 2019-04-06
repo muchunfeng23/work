@@ -22,6 +22,7 @@ public class LoginController {
     @RequestMapping("/login")
     public String login(HttpServletRequest request){
         String code = request.getParameter("code");
+        logger.info("code = " + code);
         OpenIdAndSessionKey openIdAndSessionKey = LoginHelper.getOpenIdAndSessionKey(code);
         String token = LoginHelper.createTokenForApp(openIdAndSessionKey);
         return token;
