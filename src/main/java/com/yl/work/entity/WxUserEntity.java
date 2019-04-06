@@ -17,7 +17,7 @@ public class WxUserEntity  implements Serializable  {
 	private String country;
 	private String avatarUrl;
 	private Integer ct;
-	private Integer datekey;	
+	private Integer datekey;
 
 	
 	public Integer getId(){
