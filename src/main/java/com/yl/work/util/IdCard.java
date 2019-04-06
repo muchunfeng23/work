@@ -17,19 +17,20 @@ public class IdCard {
      * @return 1-合法；0-不合法
      */
     public int isLegal(){
-        if(id.length() != 18){
-            return 0;
-        }
         int a = 0;
-        int sum = 0;
-        char checkBit[]={'1','0','X','9','8','7','6','5','4','3','2'};
-        int []add={7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};
-        char []stringArr = id.toCharArray();
-        for (int i=0;i<17;i++){
-            sum +=add[i]*(stringArr[i]-'0');
-        }
-        if (stringArr[17]==checkBit[sum%11]){
-            a=1;
+        try{
+            int sum = 0;
+            char checkBit[]={'1','0','X','9','8','7','6','5','4','3','2'};
+            int []add={7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};
+            char []stringArr = id.toCharArray();
+            for (int i=0;i<17;i++){
+                sum +=add[i]*(stringArr[i]-'0');
+            }
+            if (stringArr[17]==checkBit[sum%11]){
+                a=1;
+            }
+        }catch(Exception e){
+            return 0;
         }
         return a;
     }
