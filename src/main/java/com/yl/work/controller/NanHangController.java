@@ -4,6 +4,7 @@ import com.yl.work.entity.UserInfoEntity;
 import com.yl.work.mapper.UserInfoMapper;
 import com.yl.work.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,13 +16,7 @@ public class NanHangController {
     private UserInfoMapper userInfoMapper;
 
     @RequestMapping("/addUser")
-    public String addUser(@RequestParam("userName") String userName,
-                          @RequestParam("identiyCard")String idCard,
-                          @RequestParam("phone")String phone){
-        UserInfoEntity addedUser = new UserInfoEntity();
-        addedUser.setUserName(userName);
-        addedUser.setIdentiyCard(idCard);
-        addedUser.setPhone(phone);
+    public String addUser(@RequestBody UserInfoEntity addedUser){
         if(addedUser != null){
             if(addedUser.getUserName() != null
                 && addedUser.getIdentiyCard() != null
