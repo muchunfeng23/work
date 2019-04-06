@@ -3,6 +3,8 @@ package com.yl.work.controller;
 import com.yl.work.entity.UserInfoEntity;
 import com.yl.work.mapper.UserInfoMapper;
 import com.yl.work.util.DateUtil;
+import com.yl.work.util.IdCard;
+import com.yl.work.util.PhoneCheker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,13 @@ public class NanHangController {
             if(addedUser.getUserName() != null
                 && addedUser.getIdentiyCard() != null
                 && addedUser.getPhone() != null){
+                if(!PhoneCheker.isPhoneLegal(addedUser.getPhone())){
+                    return "phone error";
+                }
+                IdCard idCard = new IdCard(addedUser.getIdentiyCard());
+                if(idCard.isLegal() != 1){
+                    return "idcard error";
+                }
                 addedUser.setCt(DateUtil.getCurrentTimeIntValue());
                 userInfoMapper.insert(addedUser);
                 return "ok";
