@@ -1,6 +1,6 @@
 package com.yl.work.util;
 
-//import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -26,7 +26,7 @@ public class AES {
      * @return
      */
     public byte[] encrypt(byte[] originalContent, byte[] encryptKey, byte[] ivByte) {
-//        initialize();
+        initialize();
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             SecretKeySpec skeySpec = new SecretKeySpec(encryptKey, "AES");
@@ -56,9 +56,9 @@ public class AES {
      * @throws Exception
      */
     public byte[] decrypt(byte[] content, byte[] aesKey, byte[] ivByte) {
-//        initialize();
+        initialize();
         try {
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding","BC");
             Key sKeySpec = new SecretKeySpec(aesKey, "AES");
             cipher.init(Cipher.DECRYPT_MODE, sKeySpec, generateIV(ivByte));// 初始化
             byte[] result = cipher.doFinal(content);
@@ -68,13 +68,13 @@ public class AES {
         }
     }
 
-//    /**BouncyCastle作为安全提供，防止我们加密解密时候因为jdk内置的不支持改模式运行报错。**/
-//    public static void initialize() {
-//        if (initialized)
-//            return;
-//        Security.addProvider(new BouncyCastleProvider());
-//        initialized = true;
-//    }
+    /**BouncyCastle作为安全提供，防止我们加密解密时候因为jdk内置的不支持改模式运行报错。**/
+    public static void initialize() {
+        if (initialized)
+            return;
+        Security.addProvider(new BouncyCastleProvider());
+        initialized = true;
+    }
 
     // 生成iv
     public static AlgorithmParameters generateIV(byte[] iv) throws Exception {

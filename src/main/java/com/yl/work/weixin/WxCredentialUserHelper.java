@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 /**
  *
  */
@@ -46,11 +48,21 @@ public class WxCredentialUserHelper {
                 "}";
         WxUserInfo wxUserInfo = JSON.parseObject(userJsonStr,WxUserInfo.class);
         byte[] decodedEncryptedData = Base64.decode(wxUserInfo.getEncryptedData());
-//        byte[] aesKey = Base64.decode(sessionKey);
-//        byte[] iv = Base64.decode(wxUserInfo.getIv());
-//        AES aes = new AES();
-//        byte[] decodedContent = aes.decrypt(decodedEncryptedData,aesKey,iv);
-//        String afterDecode = new String(decodedContent);
-//        logger.info("after decode : " + afterDecode);
+        byte[] aesKey = Base64.decode("2sCgpv0KgRAmZHS9DUVFOQ==");
+        // 如果密钥不足16位，那么就补足. 这个if 中的内容很重要
+        int base = 16;
+        if (aesKey.length % base != 0) {
+            int groups = aesKey.length / base
+                    + (aesKey.length % base != 0 ? 1 : 0);
+            byte[] temp = new byte[groups * base];
+            Arrays.fill(temp, (byte) 0);
+            System.arraycopy(aesKey, 0, temp, 0, aesKey.length);
+            aesKey = temp;
+        }
+        byte[] iv = Base64.decode(wxUserInfo.getIv());
+        AES aes = new AES();
+        byte[] decodedContent = aes.decrypt(decodedEncryptedData,aesKey,iv);
+        String afterDecode = new String(decodedContent);
+        System.out.println("after decode : " + afterDecode);
     }
 }

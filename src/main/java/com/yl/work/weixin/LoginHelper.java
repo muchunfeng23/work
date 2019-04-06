@@ -26,7 +26,6 @@ public class LoginHelper {
         requestUrl = requestUrl.replace("SECRET", ConfigInfo.APP_SECRET);
         //从微信服务器返回数据
         String jsonResult = YLHttpClient.doGetRequest(requestUrl);
-        logger.info("login result = " + jsonResult);
         OpenIdAndSessionKey openIdAndSessionKey = JsonUtil.parseJson(jsonResult,OpenIdAndSessionKey.class);
         openIdAndSessionKey.setGetTime(DateUtil.getCurrentTimeIntValue());
         return openIdAndSessionKey;
@@ -40,12 +39,10 @@ public class LoginHelper {
         String newToken = UUID.randomUUID().toString();
         //save newToken 和 openIdAndSessionKey的
         userTokenMap.put(newToken,openIdAndSessionKey);
-        logger.info("map = " + userTokenMap);
         return newToken;
     }
 
     public static OpenIdAndSessionKey getOpenIdFromContext(String token){
-        logger.info("map2 = " + userTokenMap);
         return userTokenMap.get(token);
     }
 }
