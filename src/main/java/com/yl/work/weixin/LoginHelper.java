@@ -5,11 +5,14 @@ import com.yl.work.util.DateUtil;
 import com.yl.work.util.JsonUtil;
 import com.yl.work.util.YLHttpClient;
 import com.yl.work.weixin.bean.OpenIdAndSessionKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LoginHelper {
+    private static Logger logger = LoggerFactory.getLogger(LoginHelper.class);
     private static ConcurrentHashMap<String, OpenIdAndSessionKey> userTokenMap = new ConcurrentHashMap<>();
 
     public static OpenIdAndSessionKey getOpenIdAndSessionKey(String codeFromWx){
@@ -36,10 +39,12 @@ public class LoginHelper {
         String newToken = UUID.randomUUID().toString();
         //save newToken 和 openIdAndSessionKey的
         userTokenMap.put(newToken,openIdAndSessionKey);
+        logger.info("map = " + userTokenMap);
         return newToken;
     }
 
     public static OpenIdAndSessionKey getOpenIdFromContext(String token){
+        logger.info("map2 = " + userTokenMap);
         return userTokenMap.get(token);
     }
 }
