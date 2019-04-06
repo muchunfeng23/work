@@ -17,7 +17,7 @@ public class LoginHelper {
 
     public static OpenIdAndSessionKey getOpenIdAndSessionKey(String codeFromWx){
         String requestUrl = "https://api.weixin.qq.com/sns/jscode2session?"
-                + "appid=" + ConfigInfo.APP_ID
+                + "appid=APPID"
                 + "&secret=SECRET"
                 + "&js_code=JSCODE"
                 + "&grant_type=authorization_code";
@@ -26,6 +26,7 @@ public class LoginHelper {
         requestUrl = requestUrl.replace("SECRET", ConfigInfo.APP_SECRET);
         //从微信服务器返回数据
         String jsonResult = YLHttpClient.doGetRequest(requestUrl);
+        logger.info("login result = " + jsonResult);
         OpenIdAndSessionKey openIdAndSessionKey = JsonUtil.parseJson(jsonResult,OpenIdAndSessionKey.class);
         openIdAndSessionKey.setGetTime(DateUtil.getCurrentTimeIntValue());
         return openIdAndSessionKey;
