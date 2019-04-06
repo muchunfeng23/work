@@ -30,7 +30,7 @@ public class LoginController {
     @RequestMapping("/uploadUserInfo")
     public String testServer(HttpServletRequest request, @RequestParam("uploadUserInfo")String uploadUserInfo,@RequestParam("user_token")String userToken){
         logger.info("user_token = " + userToken);
-        String sessionKey = LoginHelper.getOpenIdAndSessionKey(userToken).getSession_key();
+        String sessionKey = LoginHelper.getOpenIdFromContext(userToken).getSession_key();
         logger.info("sessionKey = " + sessionKey);
         wxCredentialUserHelper.uploadLoginUserCredentialData(uploadUserInfo,sessionKey);
         System.out.println("-----  " + uploadUserInfo);
