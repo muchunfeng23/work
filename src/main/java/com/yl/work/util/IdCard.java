@@ -17,6 +17,9 @@ public class IdCard {
      * @return 1-合法；0-不合法
      */
     public int isLegal(){
+        if(id.length() >= 18){
+            return 0;
+        }
         int a = 0;
         int sum = 0;
         char checkBit[]={'1','0','X','9','8','7','6','5','4','3','2'};

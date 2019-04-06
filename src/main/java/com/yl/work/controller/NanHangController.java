@@ -23,12 +23,13 @@ public class NanHangController {
             if(addedUser.getUserName() != null
                 && addedUser.getIdentiyCard() != null
                 && addedUser.getPhone() != null){
-                if(!PhoneCheker.isPhoneLegal(addedUser.getPhone())){
-                    return "phone error";
-                }
+
                 IdCard idCard = new IdCard(addedUser.getIdentiyCard());
                 if(idCard.isLegal() != 1){
                     return "idcard error";
+                }
+                if(!PhoneCheker.isPhoneLegal(addedUser.getPhone())){
+                    return "phone error";
                 }
                 addedUser.setCt(DateUtil.getCurrentTimeIntValue());
                 userInfoMapper.insert(addedUser);
