@@ -50,6 +50,7 @@ public class WxCredentialUserHelper {
         wxUserEntity.setAvatarUrl(jsonObject.getString("avatarUrl"));
         wxUserEntity.setCountry(jsonObject.getString("country"));
         wxUserEntity.setCt(DateUtil.getCurrentTimeIntValue());
+        wxUserEntity.setDatekey(DateUtil.getTimesMonthmorning());
         wxUserMapper.insert(wxUserEntity);
     }
 
