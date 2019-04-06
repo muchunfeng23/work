@@ -15,7 +15,13 @@ public class NanHangController {
     private UserInfoMapper userInfoMapper;
 
     @RequestMapping("/addUser")
-    public String addUser(@RequestParam("customers") UserInfoEntity addedUser){
+    public String addUser(@RequestParam("userName") String userName,
+                          @RequestParam("identiyCard")String idCard,
+                          @RequestParam("phone")String phone){
+        UserInfoEntity addedUser = new UserInfoEntity();
+        addedUser.setUserName(userName);
+        addedUser.setIdentiyCard(idCard);
+        addedUser.setPhone(phone);
         if(addedUser != null){
             if(addedUser.getUserName() != null
                 && addedUser.getIdentiyCard() != null
