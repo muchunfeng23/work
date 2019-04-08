@@ -2,7 +2,9 @@ package com.yl.work;
 
 import com.yl.work.entity.ConceptAmountEntity;
 import com.yl.work.mapper.ConceptAmountMapper;
+import com.yl.work.mapper.ShareCommonMapper;
 import com.yl.work.shares.bean.IndustryInfo;
+import com.yl.work.shares.bean.LongHuData;
 import com.yl.work.shares.service.ShareService;
 import com.yl.work.util.DateUtil;
 import org.junit.Test;
@@ -23,6 +25,15 @@ public class WorkApplicationTests {
 
     @Autowired
     private ShareService shareService;
+
+    @Autowired
+    private ShareCommonMapper shareCommonMapper;
+
+    @Test
+    public void getLongHuData(){
+        List<LongHuData> longHuData = shareCommonMapper.getLongHuData();
+        System.out.println(longHuData);
+    }
 
     @Test
     public void contextLoads() {

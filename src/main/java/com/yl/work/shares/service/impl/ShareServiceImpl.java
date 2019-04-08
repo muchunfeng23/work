@@ -45,7 +45,7 @@ public class ShareServiceImpl implements ShareService {
                         datekeyAndAmountMap.put(keyValue[1],keyValue[0]);
                     }
                     List<IndustryAmountEntity> industryAmountEntityList = new ArrayList<>();
-                    for(int calcFrom = 0; calcFrom < days; calcFrom++){
+                    for(int calcFrom = 0; calcFrom <= days; calcFrom++){
                         Integer calcFromDatekey = this.getThatDatekey(days - calcFrom);
                         IndustryAmountEntity returnEntity = new IndustryAmountEntity();
                         returnEntity.setIname(industryInfo.getPlatName());
