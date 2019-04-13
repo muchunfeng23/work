@@ -57,11 +57,20 @@ public class LongHuServiceImpl implements LongHuService {
             return null;
         }
         List<String> sortedTitle = new ArrayList<>();
-        Map<Integer,String> countConceptMap = new TreeMap<>();
+        Map<Integer,String> countConceptMap = new TreeMap<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if(o1 - o2 > 0){
+                    return -1;
+                }else if(o1 - o2 < 0){
+                    return 1;
+                }
+                return 0;
+            }
+        });
         for(Map.Entry<String,List<LongHuData>> aEntry : conceptMap.entrySet()){
             if(aEntry.getValue() != null){
-                logger.info("------value");
-                countConceptMap.put(aEntry.getValue().size(),aEntry.getKey());
+                countConceptMap.put(aEntry.getValue().size() * 1000000 + aEntry.getKey().hashCode()%1000,aEntry.getKey());
             }
         }
         for(Map.Entry<Integer,String> sortEntry : countConceptMap.entrySet()){
