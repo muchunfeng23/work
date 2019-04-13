@@ -1,6 +1,8 @@
 package com.yl.work.controller;
 
 import com.yl.work.shares.bean.IndustryInfo;
+import com.yl.work.shares.bean.LongHuAllData;
+import com.yl.work.shares.service.LongHuService;
 import com.yl.work.shares.service.ShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,9 @@ public class ShareController {
     @Autowired
     private ShareService shareService;
 
+    @Autowired
+    private LongHuService longHuService;
+
     @RequestMapping("/plateInfo")
     public ModelAndView renderPlateAndConceptInfo(@RequestParam(value="searchParam",required = false)Integer searchParam){
         if(searchParam == null){
@@ -29,11 +34,12 @@ public class ShareController {
         return mv;
     }
 
-    @RequestMapping("/testReturnString")
-    public String returnString(){
-        return "a";
+    @RequestMapping("/longhuData")
+    public LongHuAllData returnString(){
+        return longHuService.collectAllData();
     }
 
+    //龙虎榜数据统计
     @ResponseBody
     @RequestMapping("/hello")
     public String nihao(){
