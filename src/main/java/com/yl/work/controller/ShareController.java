@@ -34,6 +34,7 @@ public class ShareController {
         return mv;
     }
 
+    @ResponseBody
     @RequestMapping("/longhuData")
     public LongHuAllData returnString(){
         return longHuService.collectAllData();
