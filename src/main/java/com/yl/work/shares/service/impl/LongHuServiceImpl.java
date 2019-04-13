@@ -70,7 +70,7 @@ public class LongHuServiceImpl implements LongHuService {
         });
         for(Map.Entry<String,List<LongHuData>> aEntry : conceptMap.entrySet()){
             if(aEntry.getValue() != null){
-                countConceptMap.put(aEntry.getValue().size() * 1000000 + (int)(System.currentTimeMillis())%1000,aEntry.getKey());
+                countConceptMap.put(aEntry.getValue().size() * 1000000 + Math.abs(aEntry.getKey().hashCode())%1000,aEntry.getKey());
             }
         }
         for(Map.Entry<Integer,String> sortEntry : countConceptMap.entrySet()){
