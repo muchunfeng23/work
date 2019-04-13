@@ -1,8 +1,10 @@
 package com.yl.work.shares.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class LongHuData {
+public class LongHuData implements Serializable {
+    private static final long serialVersionUID = 4114514670424190091L;
     private String shareCode;
     private String shareName;
     private String sumAmount;

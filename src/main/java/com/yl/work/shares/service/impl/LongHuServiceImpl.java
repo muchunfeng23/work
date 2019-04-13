@@ -44,7 +44,25 @@ public class LongHuServiceImpl implements LongHuService {
         }
         //
         allData.setConceptMap(conceptMap);
+        allData.setSortShareCodes(this.collectTitle(conceptMap));
         return allData;
+    }
+
+    private List<String> collectTitle(Map<String,List<LongHuData>> conceptMap){
+        if(conceptMap == null || conceptMap.size() == 0){
+            return null;
+        }
+        List<String> sortedTitle = new ArrayList<>();
+        Map<Integer,String> countConceptMap = new TreeMap<>();
+        for(Map.Entry<String,List<LongHuData>> aEntry : conceptMap.entrySet()){
+            if(aEntry.getValue() != null){
+                countConceptMap.put(aEntry.getValue().size(),aEntry.getKey());
+            }
+        }
+        for(Map.Entry<Integer,String> sortEntry : countConceptMap.entrySet()){
+            sortedTitle.add(sortEntry.getValue() + "(" + sortEntry.getKey() + ")");
+        }
+        return sortedTitle;
     }
 
     private List<String> sortEveryDayInOutData(String everydaylhbSum){
