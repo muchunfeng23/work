@@ -60,7 +60,7 @@ public class LongHuServiceImpl implements LongHuService {
         Map<Integer,String> countConceptMap = new TreeMap<>();
         for(Map.Entry<String,List<LongHuData>> aEntry : conceptMap.entrySet()){
             if(aEntry.getValue() != null){
-                logger.info("------" + aEntry.getValue());
+                logger.info("------value");
                 countConceptMap.put(aEntry.getValue().size(),aEntry.getKey());
             }
         }

@@ -42,7 +42,6 @@ public class ShareController {
     @RequestMapping("/longhuData")
     public LongHuAllData returnString(){
         LongHuAllData allData = longHuService.collectAllData();
-        logger.info(""+allData);
         return allData;
     }
 
