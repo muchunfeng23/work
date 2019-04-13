@@ -1,9 +1,13 @@
 package com.yl.work.shares.bean;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class LongHuAllData {
+public class LongHuAllData implements Serializable {
+
+    private static final long serialVersionUID = 3184845451672673239L;
+
     private List<LongHuData> allLongHuDatas;
     private Map<String,List<LongHuData>> conceptMap;
     //按查询结果的净买入从大到小排序，方便整合返回结果
