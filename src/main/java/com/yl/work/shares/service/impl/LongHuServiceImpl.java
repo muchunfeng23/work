@@ -5,6 +5,8 @@ import com.yl.work.shares.bean.LongHuAllData;
 import com.yl.work.shares.bean.LongHuData;
 import com.yl.work.shares.service.LongHuService;
 import javafx.collections.transformation.SortedList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -13,6 +15,8 @@ import java.util.*;
 
 @Service
 public class LongHuServiceImpl implements LongHuService {
+    private Logger logger = LoggerFactory.getLogger(LongHuServiceImpl.class);
+
     @Autowired
     private ShareCommonMapper shareCommonMapper;
 
@@ -56,6 +60,7 @@ public class LongHuServiceImpl implements LongHuService {
         Map<Integer,String> countConceptMap = new TreeMap<>();
         for(Map.Entry<String,List<LongHuData>> aEntry : conceptMap.entrySet()){
             if(aEntry.getValue() != null){
+                logger.info("------" + aEntry.getValue());
                 countConceptMap.put(aEntry.getValue().size(),aEntry.getKey());
             }
         }
