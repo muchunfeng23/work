@@ -40,15 +40,20 @@ public class ShareController {
 
     @ResponseBody
     @RequestMapping("/longhuData")
-    public LongHuAllData returnString(){
+    public LongHuAllData longhuData(){
         LongHuAllData allData = longHuService.collectAllData();
         return allData;
     }
 
     //龙虎榜数据统计
     @ResponseBody
-    @RequestMapping("/hello")
-    public String nihao(){
-        return "hello";
+    @RequestMapping("/platesData")
+    public List<IndustryInfo>  platesData(@RequestParam(value="searchParam",required = false)Integer searchParam){
+        if(searchParam == null){
+            searchParam = 1;
+        }
+        ModelAndView mv = new ModelAndView();
+        List<IndustryInfo> industryInfoList = shareService.getPlatInfos(7,searchParam);
+        return industryInfoList;
     }
 }

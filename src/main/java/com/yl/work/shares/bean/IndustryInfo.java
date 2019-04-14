@@ -2,10 +2,12 @@ package com.yl.work.shares.bean;
 
 import com.yl.work.entity.IndustryAmountEntity;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class IndustryInfo {
+public class IndustryInfo implements Serializable {
+    private static final long serialVersionUID = 9100180461384333440L;
     private String platName;
     private Double amountSum;
     private List<IndustryAmountEntity> industryAmountEntityList;
