@@ -48,9 +48,11 @@
     <select id="onedayLongHuData" resultType="com.yl.work.shares.bean.LongHuData">
         <![CDATA[
         select * from (
-            select result1.share_code,result2.share_name,result1.sumAmount,result5.everydaylhbSum,
+            select result1.share_code as shareCode,
+                result2.share_name as shareName,
+                result1.sumAmount,result5.everydaylhbSum,
                 result2.rise_fall_sum as "涨跌幅度",result2.quantity_trends as "量比趋势",
-                result2.company_value as "市值",result4.plates as "板块信息"
+                result2.company_value as "市值",result4.plates as plates
             from (
                 -- 近5个交易日龙虎榜总量大于某个值的
                 select a.share_code,TRUNCATE(sum(a.amount),2) as sumAmount
