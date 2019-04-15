@@ -4,6 +4,7 @@
 <mapper namespace="com.yl.work.mapper.ShareCommonMapper">
 
     <select id="getLongHuData" resultType="com.yl.work.shares.bean.LongHuData">
+        <![CDATA[
       select * from (
         select result1.share_code as shareCode,
             result2.share_name as shareName,result1.sumAmount,result5.everydaylhbSum,
@@ -41,6 +42,51 @@
         on result1.share_code = result5.share_code
       ) as result
       ORDER BY result.sumAmount DESC
+      ]]>
     </select>
+
+    <select id="onedayLongHuData" resultType="com.yl.work.shares.bean.LongHuData">
+        <![CDATA[
+        select * from (
+            select result1.share_code,result2.share_name,result1.sumAmount,result5.everydaylhbSum,
+                result2.rise_fall_sum as "涨跌幅度",result2.quantity_trends as "量比趋势",
+                result2.company_value as "市值",result4.plates as "板块信息"
+            from (
+                -- 近5个交易日龙虎榜总量大于某个值的
+                select a.share_code,TRUNCATE(sum(a.amount),2) as sumAmount
+                from crawler_lhb_big_people as a
+                where a.datekey >= CAST(DATE_FORMAT(date_add(now(), interval - (1) day),'%Y%m%d') AS SIGNED)
+                group by a.share_code
+            ) result1
+            left join(
+            --  GROUP_CONCAT('(',right(b.datekey,4),' : ',b.quantity_ratio,')')
+                select b.share_code,b.share_name,GROUP_CONCAT(b.quantity_ratio) as quantity_trends,TRUNCATE(sum(b.rise_fall),2) as rise_fall_sum,
+                    max(b.circulation_value_desc) as company_value from crawler_share_everyday_data as b
+                where b.datekey >= CAST(DATE_FORMAT(date_add(now(), interval - (1) day),'%Y%m%d') AS SIGNED)
+                GROUP BY b.share_code
+            ) result2
+            on result1.share_code = result2.share_code
+            left join(
+                SELECT * from all_shares
+            ) result3
+            on result1.share_code = result3.share_code
+            left join(
+                select * from share_plates
+            ) result4
+            on result1.share_code = result4.share_code
+            left join(
+                select tmp.share_code,GROUP_CONCAT('[',RIGHT(datekey,4),':',tmp.everydaySum,']') as everydaylhbSum from (
+                    SELECT share_code,datekey,TRUNCATE(SUM(amount),2) as everydaySum from crawler_lhb_big_people
+                    where datekey >= CAST(DATE_FORMAT(date_add(now(), interval - (1) day),'%Y%m%d') AS SIGNED)
+                    GROUP BY share_code,datekey
+                ) as tmp	GROUP BY tmp.share_code
+            ) result5
+            on result1.share_code = result5.share_code
+
+        ) as result
+        ORDER BY result.sumAmount DESC
+      ]]>
+    </select>
+
 
 </mapper>

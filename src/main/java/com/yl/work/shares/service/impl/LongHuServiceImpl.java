@@ -52,6 +52,33 @@ public class LongHuServiceImpl implements LongHuService {
         return allData;
     }
 
+    @Override
+    public LongHuAllData collectOnedayLonghu() {
+        List<LongHuData> allLongHuData = shareCommonMapper.onedayLongHuData();
+        LongHuAllData allData = new LongHuAllData();
+        allData.setAllLongHuDatas(allLongHuData);
+        Map<String,List<LongHuData>> conceptMap = new HashMap<String, List<LongHuData>>();
+        //把每个概念相同的数据整合起来
+        for(LongHuData longHuData : allLongHuData){
+            List<String> allConceptForTheShare = this.splitConcept(longHuData.getPlates());
+            if(!CollectionUtils.isEmpty(allConceptForTheShare)){
+                for(String concept : allConceptForTheShare){
+                    List<LongHuData> datasInMap = conceptMap.get(concept);
+                    if(datasInMap == null){
+                        datasInMap = new ArrayList<>();
+                        conceptMap.put(concept,datasInMap);
+                    }
+                    datasInMap.add(longHuData);
+                }
+            }
+            longHuData.setEverydaylhbData(this.sortEveryDayInOutData(longHuData.getEverydaylhbSum()));
+        }
+        //
+        allData.setConceptMap(conceptMap);
+        allData.setSortShareCodes(this.collectTitle(conceptMap));
+        return allData;
+    }
+
     private List<String> collectTitle(Map<String,List<LongHuData>> conceptMap){
         if(conceptMap == null || conceptMap.size() == 0){
             return null;

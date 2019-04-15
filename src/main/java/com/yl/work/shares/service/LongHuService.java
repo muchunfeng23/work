@@ -9,4 +9,6 @@ public interface LongHuService {
     public List<LongHuData> getLongHuData();
 
     public LongHuAllData collectAllData();
+
+    public LongHuAllData collectOnedayLonghu();
 }

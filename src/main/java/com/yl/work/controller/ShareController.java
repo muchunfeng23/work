@@ -45,6 +45,13 @@ public class ShareController {
         return allData;
     }
 
+    @ResponseBody
+    @RequestMapping("/longhuOnedayData")
+    public LongHuAllData longhuOnedayData(){
+        LongHuAllData allData = longHuService.collectOnedayLonghu();
+        return allData;
+    }
+
     //龙虎榜数据统计
     @ResponseBody
     @RequestMapping("/platesData")
