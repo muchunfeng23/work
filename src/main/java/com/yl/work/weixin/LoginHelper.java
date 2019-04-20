@@ -31,6 +31,23 @@ public class LoginHelper {
         return openIdAndSessionKey;
     }
 
+
+    public static OpenIdAndSessionKey getOpenIdAndSessionKeyForNanRen(String codeFromWx){
+        String requestUrl = "https://api.weixin.qq.com/sns/jscode2session?"
+                + "appid=APPID"
+                + "&secret=SECRET"
+                + "&js_code=JSCODE"
+                + "&grant_type=authorization_code";
+        requestUrl = requestUrl.replace("APPID", ConfigInfo.NANREN_APP_ID);
+        requestUrl = requestUrl.replace("JSCODE", codeFromWx);
+        requestUrl = requestUrl.replace("SECRET", ConfigInfo.NANREN_APP_SECRET);
+        //从微信服务器返回数据
+        String jsonResult = YLHttpClient.doGetRequest(requestUrl);
+        OpenIdAndSessionKey openIdAndSessionKey = JsonUtil.parseJson(jsonResult,OpenIdAndSessionKey.class);
+        openIdAndSessionKey.setGetTime(DateUtil.getCurrentTimeIntValue());
+        return openIdAndSessionKey;
+    }
+
     /**
      * 生成app和服务端传递的token，当token失效时再去调用微信的openIdAndSessionKey
      * @return
