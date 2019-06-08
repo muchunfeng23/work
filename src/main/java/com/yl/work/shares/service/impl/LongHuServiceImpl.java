@@ -47,6 +47,7 @@ public class LongHuServiceImpl implements LongHuService {
             longHuData.setEverydaylhbData(this.sortEveryDayInOutData(longHuData.getEverydaylhbSum()));
         }
         //
+        conceptMap.put("全部",allLongHuData);
         allData.setConceptMap(conceptMap);
         allData.setSortShareCodes(this.collectTitle(conceptMap));
         return allData;
