@@ -10,4 +10,6 @@ import java.util.List;
 @Component
 public interface ShareCommonMapper {
     public List<LongHuData> getLongHuData();
+
+    public List<LongHuData> onedayLongHuData();
 }

@@ -1,10 +1,15 @@
 package com.yl.work.shares.bean;
 
-public class LongHuData {
+import java.io.Serializable;
+import java.util.List;
+
+public class LongHuData implements Serializable {
+    private static final long serialVersionUID = 4114514670424190091L;
     private String shareCode;
     private String shareName;
     private String sumAmount;
     private String everydaylhbSum;
+    private List<String> everydaylhbData;
     private String plates;
 
     public String getShareCode() {
@@ -45,5 +50,25 @@ public class LongHuData {
 
     public void setPlates(String plates) {
         this.plates = plates;
+    }
+
+    public List<String> getEverydaylhbData() {
+        return everydaylhbData;
+    }
+
+    public void setEverydaylhbData(List<String> everydaylhbData) {
+        this.everydaylhbData = everydaylhbData;
+    }
+
+    @Override
+    public String toString() {
+        return "LongHuData{" +
+                "shareCode='" + shareCode + '\'' +
+                ", shareName='" + shareName + '\'' +
+                ", sumAmount='" + sumAmount + '\'' +
+                ", everydaylhbSum='" + everydaylhbSum + '\'' +
+                ", everydaylhbData=" + everydaylhbData +
+                ", plates='" + plates + '\'' +
+                '}';
     }
 }

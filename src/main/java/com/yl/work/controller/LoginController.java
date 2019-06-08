@@ -28,6 +28,15 @@ public class LoginController {
         return token;
     }
 
+    @RequestMapping("/manlogin")
+    public String manlogin(HttpServletRequest request){
+        String code = request.getParameter("code");
+        logger.info("code = " + code);
+        OpenIdAndSessionKey openIdAndSessionKey = LoginHelper.getOpenIdAndSessionKeyForNanRen(code);
+        String token = LoginHelper.createTokenForApp(openIdAndSessionKey);
+        return token;
+    }
+
     @RequestMapping("/uploadUserInfo")
     public String testServer(HttpServletRequest request, @RequestParam("uploadUserInfo")String uploadUserInfo,@RequestParam("user_token")String userToken){
         String sessionKey = LoginHelper.getOpenIdFromContext(userToken).getSession_key();
