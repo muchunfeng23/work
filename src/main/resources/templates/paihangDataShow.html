@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include/head">
+</head>
+
+<body>
+<div class="myChartClass" th:each="paihangData:${allHangYeDataList}"
+     style="width:500px;height:500px;float:left;margin-right:30px;" >
+    <canvas th:id="${paihangData.hangye}"></canvas>
+    <span th:text="${paihangData.shareNameList}"></span>
+</div>
+<script th:inline="javascript">
+    var allAmount = Array.from([[${allHangYeDataList}]]);
+    for(var aHangYeIndex in allAmount){
+        var aHangYe = allAmount[aHangYeIndex];
+        var nowOne = aHangYe.everyDaySortData;
+        var labels = new Array();
+        var datas = new Array();
+        var hangyeName = aHangYe.hangye;
+        for(var nowOneDaysIndex in nowOne){
+            labels.push(nowOne[nowOneDaysIndex].dayIndex);
+            datas.push(-1 * nowOne[nowOneDaysIndex].paihangIndex);
+        }
+        var red = 255 - aHangYeIndex * 10;
+        var ctx = document.getElementById(aHangYe.hangye).getContext('2d');
+        var data = {
+            labels: labels,
+            datasets: [{
+                label: hangyeName,
+                data: datas,
+                backgroundColor: [
+                    'rgba(' + red + ', 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(' + red + ', 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+        var myBarChart = new Chart(ctx, {
+            type: 'line',
+            data: data
+        });
+    }
+
+
+
+
+
+</script>
+</body>
+</html>

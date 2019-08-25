@@ -1,8 +1,15 @@
 package com.yl.work.shares.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.yl.work.common.PageEntity;
+import com.yl.work.dto.paihangTable.EveryDayData;
+import com.yl.work.dto.paihangTable.OneHangYeData;
+import com.yl.work.dto.paihangTable.PageInfoParam;
 import com.yl.work.entity.IndustryAmountEntity;
+import com.yl.work.entity.ThsConceptEverydayEntity;
 import com.yl.work.mapper.ConceptAmountMapper;
 import com.yl.work.mapper.IndustryAmountMapper;
+import com.yl.work.mapper.ThsConceptEverydayMapper;
 import com.yl.work.shares.bean.IndustryInfo;
 import com.yl.work.shares.service.ShareService;
 import com.yl.work.util.DateUtil;
@@ -12,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ShareServiceImpl implements ShareService {
@@ -20,6 +28,9 @@ public class ShareServiceImpl implements ShareService {
 
     @Autowired
     private ConceptAmountMapper conceptAmountMapper;
+
+    @Autowired
+    private ThsConceptEverydayMapper thsConceptEverydayMapper;
 
     @Override
     public List<IndustryInfo> getPlatInfos(Integer days,Integer type) {
@@ -64,6 +75,66 @@ public class ShareServiceImpl implements ShareService {
             return industryInfos;
         }
         return null;
+    }
+
+    @Override
+    public List<ThsConceptEverydayEntity> selectHangYeDetail(PageInfoParam param) {
+        //获取当前最后的dayIndex
+        Integer maxDayIndex = thsConceptEverydayMapper.maxDayIndex();
+        //取出排序数据
+        Integer dayIndexFrom = maxDayIndex - param.getBeforeDays();
+        Integer paihangLimit = param.getBeforePaiHang();
+        param.setDayIndexFrom(dayIndexFrom);
+        param.setPaihangLimit(paihangLimit);
+        //填充最近几日数据
+//        PageHelper.startPage(param.getPageNumber(),param.getPageSize());
+        List<String> allHangyeList = thsConceptEverydayMapper.selectHangYePaiHang(param);
+//        PageEntity<String> pageEntity = new PageEntity<>(allHangyeList);
+
+        return thsConceptEverydayMapper.selectHangYeDetail(param.getShowDays(),allHangyeList);
+    }
+
+    @Override
+    public List<OneHangYeData> queryRecentConceptChangeData(PageInfoParam param) {
+        //1、获取排序数据并初始化返回值
+        //获取当前最后的dayIndex
+        Integer maxDayIndex = thsConceptEverydayMapper.maxDayIndex();
+        //取出排序数据
+        Integer dayIndexFrom = maxDayIndex - param.getBeforeDays();
+        Integer paihangLimit = param.getBeforePaiHang();
+        param.setDayIndexFrom(dayIndexFrom);
+        param.setPaihangLimit(paihangLimit);
+        List<String> allHangyeList = thsConceptEverydayMapper.selectHangYePaiHang(param);
+        List<OneHangYeData> returnList = new ArrayList<>();
+        for(String hangye : allHangyeList){
+            OneHangYeData oneHangYeData = new OneHangYeData();
+            oneHangYeData.setHangye(hangye);
+            returnList.add(oneHangYeData);
+        }
+        //填充
+        Integer newDayIndexFrom = maxDayIndex - param.getShowDays();
+        List<ThsConceptEverydayEntity> everydayEntities = thsConceptEverydayMapper.selectHangYeDetail(newDayIndexFrom,allHangyeList);
+        Map<String,List<ThsConceptEverydayEntity>> hangYeMap = everydayEntities.stream()
+                .sorted(Comparator.comparing(ThsConceptEverydayEntity::getDayIndex))
+                .collect(Collectors.groupingBy(ThsConceptEverydayEntity::getHangye,
+                        Collectors.mapping(t->t,Collectors.toList())));
+
+        for(OneHangYeData oneHangYeData : returnList){
+            String hangye = oneHangYeData.getHangye();
+            List<ThsConceptEverydayEntity> ownedList = hangYeMap.get(hangye);
+            List<EveryDayData> everyDayDataList = new ArrayList<>();
+            Set<String> mainShares = new HashSet<>();
+            for(ThsConceptEverydayEntity everydayEntity : ownedList){
+                EveryDayData everyDayData = new EveryDayData();
+                everyDayData.setDayIndex(everydayEntity.getDayIndex());
+                everyDayData.setPaihangIndex(everydayEntity.getPaihangIndex());
+                everyDayDataList.add(everyDayData);
+                mainShares.add(everydayEntity.getMainshare());
+            }
+            oneHangYeData.setEveryDaySortData(everyDayDataList);
+            oneHangYeData.setShareNameList(new ArrayList<>(mainShares));
+        }
+        return returnList;
     }
 
     private Integer getThatDatekey(Integer daysBefore){

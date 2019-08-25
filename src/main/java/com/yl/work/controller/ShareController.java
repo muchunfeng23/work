@@ -1,5 +1,7 @@
 package com.yl.work.controller;
 
+import com.yl.work.dto.paihangTable.OneHangYeData;
+import com.yl.work.dto.paihangTable.PageInfoParam;
 import com.yl.work.shares.bean.IndustryInfo;
 import com.yl.work.shares.bean.LongHuAllData;
 import com.yl.work.shares.service.LongHuService;
@@ -8,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,5 +65,19 @@ public class ShareController {
         ModelAndView mv = new ModelAndView();
         List<IndustryInfo> industryInfoList = shareService.getPlatInfos(7,searchParam);
         return industryInfoList;
+    }
+
+    @RequestMapping("paihangShow")
+    public ModelAndView paihangData(){
+        ModelAndView mv = new ModelAndView();
+        PageInfoParam param = new PageInfoParam();
+        param.setBeforeDays(5);
+//        param.setPaihangLimit(10);
+        param.setBeforePaiHang(50);
+        param.setShowDays(30);
+        List<OneHangYeData> returnData = shareService.queryRecentConceptChangeData(param);
+        mv.addObject("allHangYeDataList",returnData);
+        mv.setViewName("paihangDataShow");
+        return mv;
     }
 }

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="com.yl.work.mapper.ThsConceptEverydayMapper">
+  <resultMap id="rm_ThsConceptEverydayEntity" type="com.yl.work.entity.ThsConceptEverydayEntity">
+  	<result property="id" column="id"/>
+  	<result property="hangye" column="hangye"/>
+  	<result property="hangyezhishu" column="hangyezhishu"/>
+  	<result property="zhangdiefu" column="zhangdiefu"/>
+  	<result property="liuruzijin" column="liuruzijin"/>
+  	<result property="liuchuzijin" column="liuchuzijin"/>
+  	<result property="jiner" column="jiner"/>
+  	<result property="datekey" column="datekey"/>
+  	<result property="dayIndex" column="dayIndex"/>
+    <result property="paihangIndex" column="paihangIndex"/>
+  	<result property="mainshare" column="mainshare"/>
+  	<result property="mainshareup" column="mainshareup"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,hangye,hangyezhishu,zhangdiefu,liuruzijin,
+		liuchuzijin,jiner,datekey,paihangIndex,dayIndex,mainshare,
+		mainshareup
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <where>
+      <if test="id != null">
+        and id =  #{id}
+      </if>
+      <if test="hangye != null">
+        and hangye =  #{hangye}
+      </if>
+      <if test="hangyezhishu != null">
+        and hangyezhishu =  #{hangyezhishu}
+      </if>
+      <if test="zhangdiefu != null">
+        and zhangdiefu =  #{zhangdiefu}
+      </if>
+      <if test="liuruzijin != null">
+        and liuruzijin =  #{liuruzijin}
+      </if>
+      <if test="liuchuzijin != null">
+        and liuchuzijin =  #{liuchuzijin}
+      </if>
+      <if test="jiner != null">
+        and jiner =  #{jiner}
+      </if>
+      <if test="datekey != null">
+        and datekey =  #{datekey}
+      </if>
+      <if test="dayIndex != null">
+        and dayIndex =  #{dayIndex}
+      </if>
+      <if test="paihangIndex != null">
+        and paihangIndex =  #{paihangIndex}
+      </if>
+      <if test="mainshare != null">
+        and mainshare =  #{mainshare}
+      </if>
+      <if test="mainshareup != null">
+        and mainshareup =  #{mainshareup}
+      </if>
+    </where>
+  </sql>
+  
+  <!--the 'where' sql with table alias of search  -->
+  <sql id="where_with_alias_sql">
+    <where>
+      <if test="tb.id != null">
+        and id =  #{tb.id}
+      </if>
+      <if test="tb.hangye != null">
+        and hangye =  #{tb.hangye}
+      </if>
+      <if test="tb.hangyezhishu != null">
+        and hangyezhishu =  #{tb.hangyezhishu}
+      </if>
+      <if test="tb.zhangdiefu != null">
+        and zhangdiefu =  #{tb.zhangdiefu}
+      </if>
+      <if test="tb.liuruzijin != null">
+        and liuruzijin =  #{tb.liuruzijin}
+      </if>
+      <if test="tb.liuchuzijin != null">
+        and liuchuzijin =  #{tb.liuchuzijin}
+      </if>
+      <if test="tb.jiner != null">
+        and jiner =  #{tb.jiner}
+      </if>
+      <if test="tb.datekey != null">
+        and datekey =  #{tb.datekey}
+      </if>
+      <if test="tb.paihangIndex != null">
+        and paihangIndex =  #{tb.paihangIndex}
+      </if>
+      <if test="tb.dayIndex != null">
+        and dayIndex =  #{tb.dayIndex}
+      </if>
+      <if test="tb.mainshare != null">
+        and mainshare =  #{tb.mainshare}
+      </if>
+      <if test="tb.mainshareup != null">
+        and mainshareup =  #{tb.mainshareup}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <trim>
+      <if test="sort != null and sort.size() >0 ">
+        ORDER BY
+        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+          <choose>
+            <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              id
+            </when>
+            <when test="key!=null and 'hangye'.equalsIgnoreCase(key)">
+              hangye
+            </when>
+            <when test="key!=null and 'hangyezhishu'.equalsIgnoreCase(key)">
+              hangyezhishu
+            </when>
+            <when test="key!=null and 'zhangdiefu'.equalsIgnoreCase(key)">
+              zhangdiefu
+            </when>
+            <when test="key!=null and 'liuruzijin'.equalsIgnoreCase(key)">
+              liuruzijin
+            </when>
+            <when test="key!=null and 'liuchuzijin'.equalsIgnoreCase(key)">
+              liuchuzijin
+            </when>
+            <when test="key!=null and 'jiner'.equalsIgnoreCase(key)">
+              jiner
+            </when>
+            <when test="key!=null and 'datekey'.equalsIgnoreCase(key)">
+              datekey
+            </when>
+            <when test="key!=null and 'paihangIndex'.equalsIgnoreCase(key)">
+              paihangIndex
+            </when>
+            <when test="key!=null and 'dayIndex'.equalsIgnoreCase(key)">
+              dayIndex
+            </when>
+            <when test="key!=null and 'mainshare'.equalsIgnoreCase(key)">
+              mainshare
+            </when>
+            <when test="key!=null and 'mainshareup'.equalsIgnoreCase(key)">
+              mainshareup
+            </when>
+          </choose>
+          <choose>
+            <when test="'asc'.equalsIgnoreCase(value)">
+              asc
+            </when>
+            <when test="'desc'.equalsIgnoreCase(value)">
+              desc
+            </when>
+            <otherwise>
+              asc
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <set>
+      <if test="id != null">
+        id =  #{id} ,
+      </if>
+      <if test="hangye != null">
+        hangye =  #{hangye} ,
+      </if>
+      <if test="hangyezhishu != null">
+        hangyezhishu =  #{hangyezhishu} ,
+      </if>
+      <if test="zhangdiefu != null">
+        zhangdiefu =  #{zhangdiefu} ,
+      </if>
+      <if test="liuruzijin != null">
+        liuruzijin =  #{liuruzijin} ,
+      </if>
+      <if test="liuchuzijin != null">
+        liuchuzijin =  #{liuchuzijin} ,
+      </if>
+      <if test="jiner != null">
+        jiner =  #{jiner} ,
+      </if>
+      <if test="datekey != null">
+        datekey =  #{datekey} ,
+      </if>
+      <if test="paihangIndex != null">
+        paihangIndex =  #{paihangIndex} ,
+      </if>
+      <if test="dayIndex != null">
+        dayIndex =  #{dayIndex} ,
+      </if>
+      <if test="mainshare != null">
+        mainshare =  #{mainshare} ,
+      </if>
+      <if test="mainshareup != null">
+        mainshareup =  #{mainshareup} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <set>
+      <if test="tb.id != null">
+        id = #{tb.id} ,
+      </if>
+      <if test="tb.hangye != null">
+        hangye = #{tb.hangye} ,
+      </if>
+      <if test="tb.hangyezhishu != null">
+        hangyezhishu = #{tb.hangyezhishu} ,
+      </if>
+      <if test="tb.zhangdiefu != null">
+        zhangdiefu = #{tb.zhangdiefu} ,
+      </if>
+      <if test="tb.liuruzijin != null">
+        liuruzijin = #{tb.liuruzijin} ,
+      </if>
+      <if test="tb.liuchuzijin != null">
+        liuchuzijin = #{tb.liuchuzijin} ,
+      </if>
+      <if test="tb.jiner != null">
+        jiner = #{tb.jiner} ,
+      </if>
+      <if test="tb.datekey != null">
+        datekey = #{tb.datekey} ,
+      </if>
+      <if test="tb.paihangIndex != null">
+        paihangIndex = #{tb.paihangIndex} ,
+      </if>
+      <if test="tb.dayIndex != null">
+        dayIndex = #{tb.dayIndex} ,
+      </if>
+      <if test="tb.mainshare != null">
+        mainshare = #{tb.mainshare} ,
+      </if>
+      <if test="tb.mainshareup != null">
+        mainshareup = #{tb.mainshareup} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    UPDATE ths_concept_everyday
+    <include refid="update_with_alias_sql"/>
+	<where>
+		and id = #{id}
+	</where>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO ths_concept_everyday
+        (
+			hangye,hangyezhishu,zhangdiefu,liuruzijin,liuchuzijin,	
+			jiner,datekey,paihangIndex,dayIndex,mainshare,mainshareup
+		)
+      VALUES
+      	(
+			#{hangye},#{hangyezhishu},#{zhangdiefu},#{liuruzijin},#{liuchuzijin},	
+			#{jiner},#{datekey},#{paihangIndex},#{dayIndex},#{mainshare},#{mainshareup}
+      	)
+    ]]>
+  </insert>
+
+  <!-- insert into table with not null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  ths_concept_everyday
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="hangye != null">
+        hangye,
+      </if>
+      <if test="hangyezhishu != null">
+        hangyezhishu,
+      </if>
+      <if test="zhangdiefu != null">
+        zhangdiefu,
+      </if>
+      <if test="liuruzijin != null">
+        liuruzijin,
+      </if>
+      <if test="liuchuzijin != null">
+        liuchuzijin,
+      </if>
+      <if test="jiner != null">
+        jiner,
+      </if>
+      <if test="datekey != null">
+        datekey,
+      </if>
+      <if test="paihangIndex != null">
+        paihangIndex,
+      </if>
+      <if test="dayIndex != null">
+        dayIndex,
+      </if>
+      <if test="mainshare != null">
+        mainshare,
+      </if>
+      <if test="mainshareup != null">
+        mainshareup,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="hangye != null">
+         #{hangye} ,
+      </if>
+      <if test="hangyezhishu != null">
+         #{hangyezhishu} ,
+      </if>
+      <if test="zhangdiefu != null">
+         #{zhangdiefu} ,
+      </if>
+      <if test="liuruzijin != null">
+         #{liuruzijin} ,
+      </if>
+      <if test="liuchuzijin != null">
+         #{liuchuzijin} ,
+      </if>
+      <if test="jiner != null">
+         #{jiner} ,
+      </if>
+      <if test="datekey != null">
+         #{datekey} ,
+      </if>
+      <if test="paihangIndex != null">
+        #{paihangIndex} ,
+      </if>
+      <if test="dayIndex != null">
+         #{dayIndex} ,
+      </if>
+      <if test="mainshare != null">
+         #{mainshare} ,
+      </if>
+      <if test="mainshareup != null">
+         #{mainshareup} ,
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO ths_concept_everyday
+      (
+			hangye,hangyezhishu,zhangdiefu,liuruzijin,liuchuzijin,	
+			jiner,datekey,paihangIndex,dayIndex,mainshare,mainshareup
+		)
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+    	(
+			#{item.hangye},#{item.hangyezhishu},#{item.zhangdiefu},#{item.liuruzijin},#{item.liuchuzijin},	
+			#{item.jiner},#{item.datekey},#{item.paihangIndex},#{item.dayIndex},#{item.mainshare},#{item.mainshareup}
+    	)
+    </foreach>
+  </insert>
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_ThsConceptEverydayEntity">
+    SELECT
+    <include refid="columns"/>
+    <![CDATA[
+      FROM ths_concept_everyday 
+    ]]>
+	<where>
+		and id =#{id}
+	</where>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_ThsConceptEverydayEntity" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM ths_concept_everyday
+	  WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+     #{item}      
+    </foreach>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_ThsConceptEverydayEntity">
+    SELECT 
+    	<include refid="columns"/>
+		FROM ths_concept_everyday
+    <include refid="where_with_alias_sql"/>
+    <include refid="sort_sql"/>
+    <choose>
+      <when test="limit != null  and offset != null">
+        limit #{limit} offset  #{offset}  
+      </when>
+      <when test="limit != null  and offset == null">
+        limit #{limit} 
+      </when>
+    </choose>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    SELECT count(1) FROM ths_concept_everyday
+    <include refid="where_with_alias_sql"/>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    DELETE FROM ths_concept_everyday
+    <include refid="where_sql"/>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    DELETE FROM ths_concept_everyday
+    <where>
+		and id = #{id}
+    </where>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from ths_concept_everyday 
+      WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">      
+	  #{item}
+    </foreach>
+  </delete> 
+</mapper>
