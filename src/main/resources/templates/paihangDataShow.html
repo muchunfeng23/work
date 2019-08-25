@@ -4,12 +4,44 @@
 </head>
 
 <body>
+<div style="margin:30px;">
+    <form action="/shares/paihangShow" method="post">
+        <select id="recentDaysSelect" name="recentDays">
+            <option th:value="1">最近1天</option>
+            <option th:value="2">最近2天</option>
+            <option th:value="3">最近3天</option>
+            <option th:value="5">最近5天</option>
+            <option th:value="10">最近10天</option>
+            <option th:value="15">最近15天</option>
+            <option th:value="20">最近20天</option>
+            <option th:value="25">最近25天</option>
+        </select>
+        <select id="paihangRowsSelect" name="paihangRows">
+            <option th:value="5">每日排名前5</option>
+            <option th:value="10">每日排名前10</option>
+            <option th:value="15">每日排名前15</option>
+            <option th:value="20">每日排名前20</option>
+            <option th:value="30">每日排名前30</option>
+        </select>
+        <input type="submit" value="查看"></input>
+        <div>
+            <label>最近N天，每天排名前M的概念。这些概念最近30天的排名情况</label>
+            <label>默认查询条件：最近交易日前十排行</label>
+        </div>
+    </form>
+</div>
 <div class="myChartClass" th:each="paihangData:${allHangYeDataList}"
-     style="width:500px;height:500px;float:left;margin-right:30px;" >
+     style="width:500px;height:400px;float:left;margin-right:30px;" >
     <canvas th:id="${paihangData.hangye}"></canvas>
     <span th:text="${paihangData.shareNameList}"></span>
 </div>
 <script th:inline="javascript">
+    //
+    $(function(){
+        $("#recentDaysSelect").val([[${recentDaysIndex}]]).trigger("change");
+        $("#paihangRowsSelect").val([[${paihangRowsIndex}]]).trigger("change");
+    });
+
     var allAmount = Array.from([[${allHangYeDataList}]]);
     for(var aHangYeIndex in allAmount){
         var aHangYe = allAmount[aHangYeIndex];

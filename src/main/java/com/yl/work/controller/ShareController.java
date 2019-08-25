@@ -68,15 +68,23 @@ public class ShareController {
     }
 
     @RequestMapping("paihangShow")
-    public ModelAndView paihangData(){
+    public ModelAndView paihangData(@RequestParam(value="recentDays",required = false)Integer recentDays,
+                                    @RequestParam(value="paihangRows",required = false)Integer paihangRows){
+        if(recentDays == null){
+            recentDays = 1;
+        }
+        if(paihangRows == null){
+            paihangRows = 10;
+        }
         ModelAndView mv = new ModelAndView();
         PageInfoParam param = new PageInfoParam();
-        param.setBeforeDays(5);
-//        param.setPaihangLimit(10);
-        param.setBeforePaiHang(50);
+        param.setBeforeDays(recentDays);
+        param.setBeforePaiHang(paihangRows);
         param.setShowDays(30);
         List<OneHangYeData> returnData = shareService.queryRecentConceptChangeData(param);
         mv.addObject("allHangYeDataList",returnData);
+        mv.addObject("recentDaysIndex",recentDays);
+        mv.addObject("paihangRowsIndex",paihangRows);
         mv.setViewName("paihangDataShow");
         return mv;
     }
