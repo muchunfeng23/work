@@ -3,6 +3,10 @@
 <!-- base mybatis file for sql defined by self  -->
 <mapper namespace="com.yl.work.mapper.ShareCommonMapper">
 
+    <select id="getMaxDayIndex" resultType="int">
+        select max(dayIndex) from crawler_lhb_big_people
+    </select>
+
     <select id="getLongHuData" resultType="com.yl.work.shares.bean.LongHuData">
         <![CDATA[
       select * from (
@@ -13,7 +17,7 @@
         from (
             select a.share_code,TRUNCATE(sum(a.amount),2) as sumAmount
             from crawler_lhb_big_people as a
-            where a.datekey >= CAST(DATE_FORMAT(date_add(now(), interval - (2+5) day),'%Y%m%d') AS SIGNED)
+            where a.dayIndex >= #{dayIndexFrom}
             group by a.share_code
             having sum(a.amount) > 3000
         ) result1

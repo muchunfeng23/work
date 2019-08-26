@@ -22,7 +22,9 @@ public class LongHuServiceImpl implements LongHuService {
 
     @Override
     public List<LongHuData> getLongHuData() {
-        return shareCommonMapper.getLongHuData();
+        Integer maxDayIndex = shareCommonMapper.getMaxDayIndex();
+        Integer dayIndexFrom = maxDayIndex - 2;
+        return shareCommonMapper.getLongHuData(dayIndexFrom);
     }
 
     @Override

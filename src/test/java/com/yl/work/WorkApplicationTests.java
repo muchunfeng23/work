@@ -35,7 +35,7 @@ public class WorkApplicationTests {
 
     @Test
     public void getLongHuData(){
-        List<LongHuData> longHuData = shareCommonMapper.getLongHuData();
+        List<LongHuData> longHuData = shareCommonMapper.getLongHuData(249);
         System.out.println(longHuData);
     }
 

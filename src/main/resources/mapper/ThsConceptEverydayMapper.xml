@@ -53,4 +53,9 @@
         <!--set t1.paihangIndex = (t1.id - t2.minId + 1)-->
         <!--where t1.dayIndex = t2.dayIndex-->
     <!--</update>-->
+
+    <select id="showAllHangYe" resultType="string">
+        select hangye from ths_concept_everyday where dayIndex = #{maxDayIndex}
+    </select>
+
 </mapper>

@@ -137,6 +137,50 @@ public class ShareServiceImpl implements ShareService {
         return returnList;
     }
 
+    @Override
+    public List<String> showAllHangYe() {
+        //1、查询最近交易日的所有概念
+        Integer maxDayIndex = thsConceptEverydayMapper.maxDayIndex();
+        return thsConceptEverydayMapper.showAllHangYe(maxDayIndex);
+    }
+
+    @Override
+    public OneHangYeData queryOneHangyeData(String hangye1) {
+        Integer maxDayIndex = thsConceptEverydayMapper.maxDayIndex();
+        Integer newDayIndexFrom = maxDayIndex - 30;
+        List<String> allHangyeList = new ArrayList<>(Arrays.asList(hangye1));
+
+        List<ThsConceptEverydayEntity> everydayEntities = thsConceptEverydayMapper.selectHangYeDetail(newDayIndexFrom,allHangyeList);
+        //下面功能直接复制的上面的，偷懒了
+        Map<String,List<ThsConceptEverydayEntity>> hangYeMap = everydayEntities.stream()
+                .sorted(Comparator.comparing(ThsConceptEverydayEntity::getDayIndex))
+                .collect(Collectors.groupingBy(ThsConceptEverydayEntity::getHangye,
+                        Collectors.mapping(t->t,Collectors.toList())));
+        List<OneHangYeData> returnList = new ArrayList<>();
+        for(String hangye : allHangyeList){
+            OneHangYeData oneHangYeData = new OneHangYeData();
+            oneHangYeData.setHangye(hangye);
+            returnList.add(oneHangYeData);
+        }
+        for(OneHangYeData oneHangYeData : returnList){
+            String hangye = oneHangYeData.getHangye();
+            List<ThsConceptEverydayEntity> ownedList = hangYeMap.get(hangye);
+            List<EveryDayData> everyDayDataList = new ArrayList<>();
+            Set<String> mainShares = new HashSet<>();
+            for(ThsConceptEverydayEntity everydayEntity : ownedList){
+                EveryDayData everyDayData = new EveryDayData();
+                everyDayData.setDayIndex(everydayEntity.getDayIndex());
+                everyDayData.setPaihangIndex(everydayEntity.getPaihangIndex());
+                everyDayDataList.add(everyDayData);
+                mainShares.add(everydayEntity.getMainshare());
+            }
+            oneHangYeData.setEveryDaySortData(everyDayDataList);
+            oneHangYeData.setShareNameList(new ArrayList<>(mainShares));
+        }
+        return returnList.get(0);
+    }
+
+
     private Integer getThatDatekey(Integer daysBefore){
         Integer datekey7day = DateUtil.getTimesmorning(new Date(System.currentTimeMillis() - daysBefore.longValue() * 3600 * 24 * 1000));
         Integer thatDatekey = null;

@@ -6,17 +6,17 @@ import com.yl.work.shares.bean.IndustryInfo;
 import com.yl.work.shares.bean.LongHuAllData;
 import com.yl.work.shares.service.LongHuService;
 import com.yl.work.shares.service.ShareService;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import sun.awt.ModalExclude;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/shares")
@@ -87,5 +87,22 @@ public class ShareController {
         mv.addObject("paihangRowsIndex",paihangRows);
         mv.setViewName("paihangDataShow");
         return mv;
+    }
+
+    @RequestMapping("allConcept")
+    public ModelAndView showAllConcepts(){
+        ModelAndView mv = new ModelAndView();
+        List<String> allHangye = shareService.showAllHangYe();
+        mv.addObject("allHangye",allHangye);
+        mv.setViewName("allConcept");
+        return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="showOneConcept",method= RequestMethod.POST)
+    public OneHangYeData showOneConceptData(@RequestBody Map<String,String> hangye){
+        System.out.println("hangye = " + hangye.get("hangye"));
+        OneHangYeData returndata = shareService.queryOneHangyeData(hangye.get("hangye"));
+        return returndata;
     }
 }

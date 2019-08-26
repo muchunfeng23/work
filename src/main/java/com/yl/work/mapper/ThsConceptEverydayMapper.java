@@ -28,4 +28,6 @@ public interface ThsConceptEverydayMapper extends BaseMapper <ThsConceptEveryday
 
     public List<String> selectHangYePaiHang(PageInfoParam param);
     public List<ThsConceptEverydayEntity> selectHangYeDetail(@Param("newDayIndexFrom")Integer newDayIndexFrom,@Param("hangyeList")List<String> hangyeList);
+
+    public List<String> showAllHangYe(@Param("maxDayIndex")Integer maxDayIndex);
 }
