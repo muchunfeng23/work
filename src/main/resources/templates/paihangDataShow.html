@@ -53,7 +53,7 @@
         var hangyeName = aHangYe.hangye;
         for(var nowOneDaysIndex in nowOne){
             labels.push(nowOne[nowOneDaysIndex].dayIndex);
-            datas.push(-1 * nowOne[nowOneDaysIndex].paihangIndex);
+            datas.push(-1 * nowOne[nowOneDaysIndex].paihangIndex + 50);
         }
         var red = 255 - aHangYeIndex * 10;
         var ctx = document.getElementById(aHangYe.hangye).getContext('2d');
@@ -63,11 +63,14 @@
                 label: hangyeName,
                 data: datas,
                 backgroundColor: [
-                    'rgba(' + red + ', 99, 132, 0.2)'
+                    'rgba(' + red + ', 99, 132, 0)'
                 ],
                 borderColor: [
-                    'rgba(' + red + ', 99, 132, 1)'
+                    'rgba(' + red + ', 99, 132, 0)'
                 ],
+                pointBackgroundColor:
+                    'rgba(' + red + ', 99, 132, 1)'
+                ,
                 borderWidth: 1
             }]
         };

@@ -147,7 +147,7 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public OneHangYeData queryOneHangyeData(String hangye1) {
         Integer maxDayIndex = thsConceptEverydayMapper.maxDayIndex();
-        Integer newDayIndexFrom = maxDayIndex - 30;
+        Integer newDayIndexFrom = maxDayIndex - 40;
         List<String> allHangyeList = new ArrayList<>(Arrays.asList(hangye1));
 
         List<ThsConceptEverydayEntity> everydayEntities = thsConceptEverydayMapper.selectHangYeDetail(newDayIndexFrom,allHangyeList);

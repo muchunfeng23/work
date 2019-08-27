@@ -47,9 +47,10 @@
                         var oneDayData = datas.everyDaySortData;
                         var labels = new Array();
                         var datas1 = new Array();
+                        // datas1.push(50);
                         for(var aDataIndex in datas.everyDaySortData){
                             labels.push(datas.everyDaySortData[aDataIndex].dayIndex);
-                            datas1.push(-1 * datas.everyDaySortData[aDataIndex].paihangIndex);
+                            datas1.push(-1 * datas.everyDaySortData[aDataIndex].paihangIndex + 50);
                         }
                         var data = {
                             labels: labels,
@@ -57,11 +58,13 @@
                                 label: datas.hangye,
                                 data: datas1,
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)'
+                                    'rgba(255, 99, 132, 0)'
                                 ],
                                 borderColor: [
-                                    'rgba(255, 99, 132, 1)'
+                                    'rgba(125, 99, 12, 0)'
                                 ],
+                                pointBackgroundColor:'rgba(255, 99, 132, 1)'
+                                ,
                                 borderWidth: 1
                             }]
                         };

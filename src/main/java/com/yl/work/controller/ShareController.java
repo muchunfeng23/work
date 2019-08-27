@@ -71,7 +71,7 @@ public class ShareController {
     public ModelAndView paihangData(@RequestParam(value="recentDays",required = false)Integer recentDays,
                                     @RequestParam(value="paihangRows",required = false)Integer paihangRows){
         if(recentDays == null){
-            recentDays = 1;
+            recentDays = 5;
         }
         if(paihangRows == null){
             paihangRows = 10;
@@ -80,7 +80,7 @@ public class ShareController {
         PageInfoParam param = new PageInfoParam();
         param.setBeforeDays(recentDays);
         param.setBeforePaiHang(paihangRows);
-        param.setShowDays(30);
+        param.setShowDays(40);
         List<OneHangYeData> returnData = shareService.queryRecentConceptChangeData(param);
         mv.addObject("allHangYeDataList",returnData);
         mv.addObject("recentDaysIndex",recentDays);
