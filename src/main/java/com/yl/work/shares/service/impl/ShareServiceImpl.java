@@ -2,6 +2,7 @@ package com.yl.work.shares.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.yl.work.common.PageEntity;
+import com.yl.work.dto.ConceptChangeData;
 import com.yl.work.dto.paihangTable.EveryDayData;
 import com.yl.work.dto.paihangTable.OneHangYeData;
 import com.yl.work.dto.paihangTable.PageInfoParam;
@@ -178,6 +179,35 @@ public class ShareServiceImpl implements ShareService {
             oneHangYeData.setShareNameList(new ArrayList<>(mainShares));
         }
         return returnList.get(0);
+    }
+
+    @Override
+    public List<ConceptChangeData> queryConceptChangeData(Integer fullDays,Integer preDays) {
+        Integer maxDayIndex = thsConceptEverydayMapper.maxDayIndex() - preDays;
+        Integer toDayIndex = maxDayIndex;
+        Integer fromDayIndex = maxDayIndex - fullDays;
+        List<ConceptChangeData> conceptChangeDataList = thsConceptEverydayMapper.queryConceptChangeDatas(fromDayIndex,toDayIndex);
+        conceptChangeDataList.forEach(aData -> {
+            String[] dayIndex = aData.getConceptDayIndex().split(",");
+            String[] paiHangIndex = aData.getPaihangIndex().split(",");
+            int scores[] = new int[fullDays];
+            int score = 0;
+            for(int i = 0; i < dayIndex.length; i++){
+                scores[Integer.parseInt(dayIndex[i])] = Integer.parseInt(paiHangIndex[i]) * 12;
+//                score += (days - Integer.parseInt(dayIndex[i])) * 10 + (20 - Integer.parseInt(paiHangIndex[i]));
+                score += (fullDays - Integer.parseInt(dayIndex[i])) * 8 + (15 - Integer.parseInt(paiHangIndex[i]));
+            }
+            aData.setScore(score);
+            aData.setScoreList(Arrays.stream(scores).boxed().collect(Collectors.toList()));
+        });
+        Collections.sort(conceptChangeDataList, new Comparator<ConceptChangeData>() {
+            @Override
+            public int compare(ConceptChangeData o1, ConceptChangeData o2) {
+                return o2.getScore() - o1.getScore();
+            }
+        });
+
+        return conceptChangeDataList;
     }
 
 

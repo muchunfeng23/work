@@ -1,5 +1,6 @@
 package com.yl.work.mapper;
 
+import com.yl.work.dto.ConceptChangeData;
 import com.yl.work.dto.HotConceptBeforeLastDto;
 import com.yl.work.dto.paihangTable.PageInfoParam;
 import com.yl.work.entity.ThsConceptEverydayEntity;
@@ -30,4 +31,7 @@ public interface ThsConceptEverydayMapper extends BaseMapper <ThsConceptEveryday
     public List<ThsConceptEverydayEntity> selectHangYeDetail(@Param("newDayIndexFrom")Integer newDayIndexFrom,@Param("hangyeList")List<String> hangyeList);
 
     public List<String> showAllHangYe(@Param("maxDayIndex")Integer maxDayIndex);
+
+    public List<ConceptChangeData> queryConceptChangeDatas(@Param("fromDayIndex") Integer fromDayIndex,
+                                                           @Param("toDayIndex") Integer toDayIndex);
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include/head">
+
+</head>
+
+<style>
+    .aHangye{
+        margin:2px 10px;
+        float: left;
+        background: rgba(123,45,111,0.1);
+        border-radius: 10px;
+        padding:3px 15px;
+    }
+</style>
+<body>
+<!--<span th:style="'background:#5f8dd4;height:15px;width:'+*{aScore}+''"></span>-->
+<!--<label th:if="${aScore} ne 0" th:style="'background-color:rgb('+${aScore}+',200,130);width:100px;height:15px;'" th:text="${aScore}" ></label>-->
+    <div th:each="changeData:${changeDataList}" style="margin-top:20px;margin-left: 50px;">
+        <div>
+            <span th:each="aScore:${changeData.scoreList}" th:height="15px">
+                <label th:if="${aScore} ne 0" th:style="'background-color:rgb('+${aScore}+',0,0);width:100px;height:15px;'"></label>
+                <label th:if="${aScore} eq 0" th:style="'background-color:rgb(255,255,255);width:100px;height:15px;'"></label>
+            </span>
+            <span th:text="${changeData.conceptName}" th:style="'width:200px;height:15px;line-height:15px;margin-top:-10px'"/>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    $(function () {
+
+    });
+</script>
+</html>

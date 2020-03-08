@@ -58,4 +58,19 @@
         select hangye from ths_concept_everyday where dayIndex = #{maxDayIndex}
     </select>
 
+
+    <select id="queryConceptChangeDatas" resultType="com.yl.work.dto.ConceptChangeData">
+        <![CDATA[
+            select
+            hangye as conceptName,
+            group_concat(#{toDayIndex}-dayIndex) as conceptDayIndex,
+            group_concat(paihangIndex) as paihangIndex
+            from ths_concept_everyday
+            where
+            dayIndex <= #{toDayIndex} and dayIndex > #{fromDayIndex}
+            and paihangIndex < 30
+            group by hangye
+        ]]>
+    </select>
+
 </mapper>

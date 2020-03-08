@@ -1,5 +1,6 @@
 package com.yl.work.shares.service;
 
+import com.yl.work.dto.ConceptChangeData;
 import com.yl.work.dto.paihangTable.OneHangYeData;
 import com.yl.work.dto.paihangTable.PageInfoParam;
 import com.yl.work.entity.ThsConceptEverydayEntity;
@@ -17,4 +18,6 @@ public interface ShareService {
     public List<String> showAllHangYe();
 
     public OneHangYeData queryOneHangyeData(String hangye);
+
+    public List<ConceptChangeData> queryConceptChangeData(Integer fullDays,Integer preDays);
 }

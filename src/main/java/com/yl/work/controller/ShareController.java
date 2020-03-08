@@ -1,5 +1,6 @@
 package com.yl.work.controller;
 
+import com.yl.work.dto.ConceptChangeData;
 import com.yl.work.dto.paihangTable.OneHangYeData;
 import com.yl.work.dto.paihangTable.PageInfoParam;
 import com.yl.work.shares.bean.IndustryInfo;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import sun.awt.ModalExclude;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +73,7 @@ public class ShareController {
     public ModelAndView paihangData(@RequestParam(value="recentDays",required = false)Integer recentDays,
                                     @RequestParam(value="paihangRows",required = false)Integer paihangRows){
         if(recentDays == null){
-            recentDays = 5;
+            recentDays = 10;
         }
         if(paihangRows == null){
             paihangRows = 10;
@@ -104,5 +106,38 @@ public class ShareController {
         System.out.println("hangye = " + hangye.get("hangye"));
         OneHangYeData returndata = shareService.queryOneHangyeData(hangye.get("hangye"));
         return returndata;
+    }
+
+
+    @RequestMapping("/goodShares")
+    public ModelAndView getGoodShares(){
+        ModelAndView mv = new ModelAndView();
+        PageInfoParam param = new PageInfoParam();
+        param.setBeforeDays(5);
+        param.setBeforePaiHang(10);
+        param.setShowDays(5);
+        List<OneHangYeData> returnData = shareService.queryRecentConceptChangeData(param);
+        List<String> allShareNames = new ArrayList<>();
+        for(OneHangYeData oneHangYeData : returnData){
+            allShareNames.addAll(oneHangYeData.getShareNameList());
+        }
+        System.out.println(allShareNames);
+        return mv;
+    }
+
+    @RequestMapping("/getPaiHangChange")
+    public ModelAndView getPaihangChange(@RequestParam(value="fullDays",required = false) Integer fullDays,
+                                         @RequestParam(value="preDays",required = false) Integer preDays){
+        ModelAndView mv = new ModelAndView();
+        if(fullDays == null){
+            fullDays = 7;
+        }
+        if(preDays == null){
+            preDays = 0;
+        }
+        List<ConceptChangeData> changeDataList = shareService.queryConceptChangeData(fullDays,preDays);
+        mv.addObject("changeDataList",changeDataList);
+        mv.setViewName("allConceptChange");
+        return mv;
     }
 }
