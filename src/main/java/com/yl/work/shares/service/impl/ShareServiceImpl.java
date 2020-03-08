@@ -191,13 +191,16 @@ public class ShareServiceImpl implements ShareService {
             String[] dayIndex = aData.getConceptDayIndex().split(",");
             String[] paiHangIndex = aData.getPaihangIndex().split(",");
             int scores[] = new int[fullDays];
+            double scorePercent[] = new double[fullDays];
             int score = 0;
             for(int i = 0; i < dayIndex.length; i++){
-                scores[Integer.parseInt(dayIndex[i])] = Integer.parseInt(paiHangIndex[i]) * 12;
+                scores[Integer.parseInt(dayIndex[i])] = Integer.parseInt(paiHangIndex[i]) * 15;
 //                score += (days - Integer.parseInt(dayIndex[i])) * 10 + (20 - Integer.parseInt(paiHangIndex[i]));
-                score += (fullDays - Integer.parseInt(dayIndex[i])) * 8 + (15 - Integer.parseInt(paiHangIndex[i]));
+                score += (fullDays - Integer.parseInt(dayIndex[i])) * 8 + (20 - Integer.parseInt(paiHangIndex[i]));
+                scorePercent[Integer.parseInt(dayIndex[i])] = (float)(15 * 20 - scores[Integer.parseInt(dayIndex[i])] )/ 250;
             }
             aData.setScore(score);
+            aData.setPercentList(Arrays.stream(scorePercent).boxed().collect(Collectors.toList()));
             aData.setScoreList(Arrays.stream(scores).boxed().collect(Collectors.toList()));
         });
         Collections.sort(conceptChangeDataList, new Comparator<ConceptChangeData>() {

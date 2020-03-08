@@ -10,6 +10,15 @@ public class ConceptChangeData implements Serializable {
     //当日排行越高分值越大；当日没进前N，不在排行之内
     private List<Integer> scoreList;
     private Integer score;
+    private List<Double> percentList;
+
+    public List<Double> getPercentList() {
+        return percentList;
+    }
+
+    public void setPercentList(List<Double> percentList) {
+        this.percentList = percentList;
+    }
 
     public Integer getScore() {
         return score;

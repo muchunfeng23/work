@@ -68,7 +68,7 @@
             from ths_concept_everyday
             where
             dayIndex <= #{toDayIndex} and dayIndex > #{fromDayIndex}
-            and paihangIndex < 30
+            and paihangIndex <= 20
             group by hangye
         ]]>
     </select>
