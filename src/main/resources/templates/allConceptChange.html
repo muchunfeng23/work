@@ -22,7 +22,8 @@
                 <label th:if="${scorePercent} ne 0" th:style="'background-color:rgba(247,128,12,'+${scorePercent}+');width:100px;height:15px;'"></label>
                 <label th:if="${scorePercent} eq 0" th:style="'background-color:rgb(255,255,255);width:100px;height:15px;'"></label>
             </span>
-            <span th:text="${changeData.conceptName}" th:style="'width:200px;height:15px;line-height:15px;margin-top:-10px'"/>
+            <span th:text="${changeData.conceptName} +
+            '    [涨跌幅：' + ${changeData.zhangdiefu} + '%]'" th:style="'width:200px;height:15px;line-height:15px;margin-top:-10px'"/>
         </div>
 
     </div>

@@ -61,15 +61,23 @@
 
     <select id="queryConceptChangeDatas" resultType="com.yl.work.dto.ConceptChangeData">
         <![CDATA[
-            select
-            hangye as conceptName,
-            group_concat(#{toDayIndex}-dayIndex) as conceptDayIndex,
-            group_concat(paihangIndex) as paihangIndex
-            from ths_concept_everyday
-            where
-            dayIndex <= #{toDayIndex} and dayIndex > #{fromDayIndex}
-            and paihangIndex <= 20
-            group by hangye
+            select * from (
+                select
+                hangye as conceptName,
+                group_concat(#{toDayIndex}-dayIndex) as conceptDayIndex,
+                group_concat(paihangIndex) as paihangIndex,
+                sum(zhangdiefu) as zhangdieFuDu,
+                sum(liuruzijin - liuchuzijin) as sumMoney
+                from ths_concept_everyday
+                where
+                dayIndex <= #{toDayIndex} and dayIndex > #{fromDayIndex}
+                and paihangIndex <= 20
+                group by hangye
+            ) as result1
+            left join (
+                select hangye,zhangdiefu from ths_concept_everyday where dayIndex = #{toDayIndex} + 1
+            ) as result2
+            on result1.conceptName = result2.hangye
         ]]>
     </select>
 
